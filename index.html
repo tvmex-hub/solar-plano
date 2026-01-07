@@ -3,201 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOLAR RM PRO - Ingeniería Mexicana Oficial</title>
+    <title>SOLAR RM PRO - OFICIAL</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
-    
     <style>
-        :root { --primary: #2240db; --accent: #fbc02d; --bg: #0b0b0b; }
-        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 0; overflow-x: hidden; }
+        :root { --blue: #2240db; --dark: #0b0b0b; }
+        body { font-family: sans-serif; background: var(--dark); color: #fff; text-align: center; margin: 0; padding: 20px; }
+        .card { background: #1a1a1a; padding: 20px; border-radius: 15px; border: 1px solid #333; max-width: 400px; margin: 0 auto; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: none; box-sizing: border-box; }
+        .btn { background: var(--blue); color: white; padding: 15px; border: none; border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer; }
         
-        .app-header { background: linear-gradient(to right, #000, #0a1855); padding: 15px; text-align: center; border-bottom: 2px solid var(--primary); position: sticky; top: 0; z-index: 100; }
-        .app-header h1 { margin: 0; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; }
-        .app-header span { color: var(--primary); }
-
-        #form-container { padding: 25px; max-width: 480px; margin: 0 auto; }
-        .input-group { margin-bottom: 15px; }
-        label { font-size: 10px; color: var(--accent); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 5px; }
-        input, select { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #333; background: #1a1a1a; color: #fff; font-size: 15px; box-sizing: border-box; outline: none; }
-        
-        .btn-generate { background: var(--primary); color: white; width: 100%; padding: 18px; border: none; border-radius: 15px; font-weight: 900; font-size: 16px; cursor: pointer; margin-top: 10px; }
-
-        /* VISTA DEL PLANO */
-        #plano-view { display: none; background: #222; width: 100vw; height: 100vh; overflow: auto; position: relative; }
+        /* Area invisible para captura */
         #capture-area { 
-            background: #fff; color: #000; width: 1100px; padding: 45px; 
-            box-sizing: border-box; transform-origin: top left; position: absolute; left: 0; top: 0; border: 6px solid #000;
+            position: absolute; left: -9999px; top: 0;
+            background: #fff; color: #000; width: 1000px; padding: 40px; border: 5px solid #000;
         }
-        .plano-border { border: 2px solid #000; padding: 25px; position: relative; }
-        .comp-box { border: 2.5px solid #000; padding: 10px; text-align: center; font-family: 'Roboto Mono', monospace; font-size: 12px; font-weight: bold; background: #fff; }
-        .line-v { width: 3px; height: 35px; background: #000; margin: 0 auto; position: relative; }
-        .line-v::after { content: ''; position: absolute; bottom: 0; left: -4.5px; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 10px solid #000; }
-        .busbar { width: 100%; height: 10px; background: #000; margin: 15px 0; }
-        .inv-grid { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin: 25px 0; }
-        .footer-data { display: grid; grid-template-columns: 1.6fr 1fr; border-top: 3px solid #000; margin-top: 35px; padding-top: 20px; font-size: 12px; font-family: 'Roboto Mono', monospace; }
-
-        /* MODAL FINAL */
-        #result-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; overflow-y: auto; text-align: center; padding: 20px; box-sizing: border-box; }
-        #result-image { width: 100%; max-width: 1000px; border: 3px solid white; border-radius: 10px; margin-top: 15px; }
-        .btn-action { width: 100%; padding: 16px; border-radius: 15px; border: none; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; color: white; margin-top: 12px; text-decoration: none; }
-
-        .controls-floating { position: fixed; bottom: 25px; width: 100%; display: flex; justify-content: center; gap: 12px; z-index: 9999; }
-        .btn-float { padding: 14px 24px; border-radius: 50px; border: none; font-weight: bold; cursor: pointer; color: white; box-shadow: 0 5px 20px rgba(0,0,0,0.6); }
+        .plano-box { border: 2px solid #000; padding: 20px; }
     </style>
 </head>
 <body>
 
-<div class="app-header"><h1>SOLAR<span>RM</span> PRO <small style="font-size: 9px; opacity: 0.7;">INGENIERÍA</small></h1></div>
-
-<div id="form-container">
-    <div class="input-group"><label>Nombre del Proyecto</label><input type="text" id="cliente" placeholder="Ej. Planta Solar Reyes"></div>
-    <div style="display:flex; gap:10px;">
-        <div class="input-group" style="flex:1;"><label>Wp Panel</label><input type="number" id="wPan" value="550"></div>
-        <div class="input-group" style="flex:1;"><label>Cant. Paneles</label><input type="number" id="nPan" value="12"></div>
-    </div>
-    <div class="input-group"><label>Capacidad Inversor (kW)</label><input type="number" id="capInv" value="5"></div>
-    
-    <div class="input-group">
-        <label>Tensión Red CFE</label>
-        <select id="red">
-            <option value="220">220V (Trifásico / Bifásico)</option>
-            <option value="440">440V (Trifásico Industrial)</option>
-            <option value="127">127V (Monofásico)</option>
-        </select>
-    </div>
-
-    <div class="input-group">
-        <label>Factor Temp. Ambiente</label>
-        <select id="temp">
-            <option value="1.00">≤ 30°C (Normal)</option>
-            <option value="0.82">41-45°C (Cálido)</option>
-            <option value="0.71">51-55°C (Extremo)</option>
-        </select>
-    </div>
-    
-    <button class="btn-generate" onclick="generarPlano()">DISEÑAR PLANO NOM-001</button>
+<div class="card">
+    <h2>SOLAR RM PRO</h2>
+    <p style="font-size: 12px; color: #fbc02d;">GENERADOR DE INGENIERÍA NOM</p>
+    <input type="text" id="cliente" placeholder="Nombre del Proyecto">
+    <input type="number" id="kw" placeholder="Potencia Total kW (AC)">
+    <select id="red">
+        <option value="220">Red CFE 220V (Trifásico)</option>
+        <option value="440">Red CFE 440V (Industrial)</option>
+        <option value="127">Red CFE 127V (Monofásico)</option>
+    </select>
+    <button class="btn" onclick="procesar()">GENERAR Y ENVIAR</button>
 </div>
 
-<div id="plano-view">
-    <div id="capture-area">
-        <div class="plano-border">
-            <div style="display:flex; justify-content:space-between; border-bottom:4px solid #000; padding-bottom:15px; align-items:center;">
-                <div><h1 style="margin:0; font-size:24px;">DIAGRAMA UNIFILAR (AS-BUILT)</h1>PROYECTO: <b id="out-cliente"></b></div>
-                <div style="text-align:right;"><b>SOLAR RM PRO</b><br>FECHA: <span id="out-fecha"></span></div>
-            </div>
-
-            <div style="margin-top:30px; text-align:center;">
-                <div class="comp-box" style="width:450px; margin:0 auto;">
-                    <i class="fa-solid fa-solar-panel"></i> <b>GENERADOR FOTOVOLTAICO</b><br>
-                    <span id="out-dc-resumen"></span><br>
-                    POTENCIA TOTAL DC: <span id="out-kwcc"></span> kWp
-                </div>
-                <div class="line-v"></div>
-            </div>
-
-            <div id="inv-container" class="inv-grid"></div>
-
-            <div class="line-v" style="height:25px;"></div>
-            <div class="busbar"></div>
-            <p style="text-align:center; font-size:10px; font-weight:900; margin:0;">Centro de Carga de Agregación FV (Art. 705 NOM-001-SEDE)</p>
-            <div class="line-v"></div>
-
-            <div class="comp-box" style="width:550px; margin:0 auto; border-width:4px; padding:20px; box-shadow: 6px 6px 0px #000;">
-                <i class="fa-solid fa-shield-bolt"></i> <b>INTERRUPTOR GENERAL (MEDIO DESCONEXIÓN)</b><br>
-                PROTECCIÓN: <span id="out-bppal"></span>A / <span id="out-polos"></span>P @ <span id="out-vred"></span>V<br>
-                CONDUCTOR: <span id="out-cppal"></span> THHW-LS 75°C
-            </div>
-            
-            <div class="line-v"></div>
-            <div style="text-align:center; font-weight:900; font-size:18px; border:3px dashed #000; padding:15px; width:45%; margin:0 auto;">ACOMETIDA CFE</div>
-
-            <div class="footer-data">
-                <div><b>NOTAS:</b><br>• Cumplimiento Art. 690 NOM-001.<br>• Desconectador visible y bloqueable.<br>• Tierra física según Art. 250: <span id="out-ctierra"></span>.</div>
-                <div style="text-align:right;">POTENCIA AC: <span id="out-kwca"></span> kW<br>TENSIÓN: <span id="out-vred2"></span>V<br>PANELES: <span id="out-npan"></span></div>
-            </div>
+<div id="capture-area">
+    <div class="plano-box">
+        <h1 id="out-titulo">DIAGRAMA UNIFILAR - SOLAR RM</h1>
+        <hr>
+        <p><b>PROYECTO:</b> <span id="out-cliente"></span></p>
+        <div style="height: 100px; border: 2px solid #000; margin: 20px 0; display: flex; align-items: center; justify-content: center;">
+            INVERSOR INTERACTIVO <span id="out-pot"></span> kW
         </div>
-    </div>
-
-    <div class="controls-floating">
-        <button class="btn-float" style="background:#f44336;" onclick="location.reload()">EDITAR</button>
-        <button class="btn-float" id="btn-master" style="background:var(--primary);" onclick="prepararCaptura()">LISTO PARA ENVIAR</button>
-    </div>
-</div>
-
-<div id="result-modal">
-    <h3 style="color:white; margin:0;">¡INGENIERÍA LISTA!</h3>
-    <p style="font-size:11px; color:#aaa;">Toma captura de pantalla o usa los botones:</p>
-    <img id="result-image" src="" alt="Plano">
-    <div style="margin-top:15px; display:grid; gap:10px;">
-        <button id="btn-browser-view" class="btn-action" style="background:var(--primary);">
-            <i class="fa-solid fa-up-right-from-square"></i> VER EN NAVEGADOR (PARA GUARDAR)
-        </button>
-        <button class="btn-action" onclick="enviarWhatsApp()" style="background:#25D366;">
-            <i class="fa-brands fa-whatsapp"></i> ENVIAR POR WHATSAPP
-        </button>
-        <button class="btn-action" onclick="document.getElementById('result-modal').style.display='none'" style="background:#444;">
-            VOLVER
-        </button>
+        <p><b>PROTECCIÓN PRINCIPAL:</b> <span id="out-itm"></span>A</p>
+        <p><b>TENSIÓN:</b> <span id="out-v"></span>V</p>
+        <hr>
+        <p style="font-size: 10px;">DISEÑO SEGÚN NOM-001-SEDE-2012 / ART 690 Y 705</p>
     </div>
 </div>
 
 <script>
-function generarPlano() {
-    const wPan = parseInt(document.getElementById('wPan').value);
-    const nPan = parseInt(document.getElementById('nPan').value);
-    const capInv = parseFloat(document.getElementById('capInv').value);
-    const red = parseFloat(document.getElementById('red').value);
-    const fTemp = parseFloat(document.getElementById('temp').value);
+function procesar() {
+    const cliente = document.getElementById('cliente').value || "PROYECTO SOLAR";
+    const kw = document.getElementById('kw').value || "5";
+    const v = document.getElementById('red').value;
+    
+    // Cálculos rápidos
+    const polos = v == "127" ? 1 : 3;
+    const amp = Math.ceil((kw * 1000) / (v * (polos == 3 ? 1.732 : 1) * 0.95) * 1.25);
+    
+    document.getElementById('out-cliente').innerText = cliente;
+    document.getElementById('out-pot').innerText = kw;
+    document.getElementById('out-v').innerText = v;
+    document.getElementById('out-itm').innerText = amp;
 
-    const potDC = (nPan * wPan) / 1000;
-    const polos = red > 127 ? 3 : 1;
-    const iNominal = (capInv * 1000) / (red * (polos === 3 ? 1.732 : 1) * 0.95);
-    const iDiseno = (iNominal * 1.25) / fTemp;
-
-    const itms = [15,20,30,40,50,60,70,80,100,125,150,200,250];
-    const bPpal = itms.find(v => v >= iDiseno) || 250;
-
-    document.getElementById('inv-container').innerHTML = `<div><div class="comp-box" style="width:160px; border-color:var(--primary);">INV. INTERACTIVO<br>${capInv} kW</div><div class="line-v"></div><div class="comp-box" style="width:100px;">ITM ${itms.find(v => v >= iNominal*1.25) || 15}A</div></div>`;
-
-    document.getElementById('out-cliente').innerText = (document.getElementById('cliente').value || "SISTEMA FV").toUpperCase();
-    document.getElementById('out-fecha').innerText = new Date().toLocaleDateString();
-    document.getElementById('out-dc-resumen').innerText = `${nPan} MÓDULOS DE ${wPan}W`;
-    document.getElementById('out-bppal').innerText = bPpal;
-    document.getElementById('out-polos').innerText = polos;
-    document.getElementById('out-vred').innerText = red;
-    document.getElementById('out-vred2').innerText = red;
-    document.getElementById('out-kwcc').innerText = potDC.toFixed(2);
-    document.getElementById('out-kwca').innerText = capInv.toFixed(2);
-    document.getElementById('out-npan').innerText = nPan;
-    document.getElementById('out-cppal').innerText = bPpal <= 30 ? "10 AWG" : (bPpal <= 65 ? "6 AWG" : "2 AWG");
-    document.getElementById('out-ctierra').innerText = bPpal <= 100 ? "8 AWG (CU)" : "6 AWG (CU)";
-
-    document.getElementById('form-container').style.display = 'none';
-    document.getElementById('plano-view').style.display = 'block';
-    document.getElementById('capture-area').style.transform = `scale(${window.innerWidth / 1150})`;
-}
-
-function prepararCaptura() {
     const area = document.getElementById('capture-area');
-    const originalScale = area.style.transform;
-    area.style.transform = "scale(1)";
-    html2canvas(area, { scale: 2, useCORS: true }).then(canvas => {
-        const imgData = canvas.toDataURL('image/jpeg', 0.9);
-        document.getElementById('result-image').src = imgData;
-        document.getElementById('btn-browser-view').onclick = function() {
-            var newWin = window.open();
-            newWin.document.write('<html><body style="margin:0; text-align:center;"><h3 style="font-family:sans-serif;">Mantén presionado para Guardar</h3><img src="' + imgData + '" style="width:100%;"></body></html>');
-        };
-        document.getElementById('result-modal').style.display = 'block';
-        area.style.transform = originalScale;
+    
+    html2canvas(area).then(canvas => {
+        const imgData = canvas.toDataURL('image/jpeg');
+        
+        // TRUCO FINAL: En lugar de descargar, abrimos una ventana limpia
+        // Esto NO saca al usuario de la app porque es una ventana nueva del sistema
+        const nuevaVentana = window.open("");
+        nuevaVentana.document.write(`
+            <html>
+            <body style="margin:0; text-align:center; font-family:sans-serif; background:#000; color:#fff;">
+                <h3>PLANO GENERADO</h3>
+                <p>1. Mantén presionada la imagen para Guardar</p>
+                <img src="${imgData}" style="width:100%; border:2px solid #fff;">
+                <br><br>
+                <button onclick="window.location.href='https://wa.me/?text=Plano%20Listo%20Proyecto%20${cliente}'" 
+                        style="padding:15px; background:#25D366; color:#fff; border:none; border-radius:10px; width:80%; font-weight:bold;">
+                    COMPARTIR POR WHATSAPP
+                </button>
+            </body>
+            </html>
+        `);
     });
-}
-
-function enviarWhatsApp() {
-    const cliente = document.getElementById('out-cliente').innerText;
-    const msg = `*SOLAR RM PRO*%0AHola, te comparto el Plano Eléctrico del proyecto: *${cliente}*.%0ACumple con la NOM-001-SEDE.%0A_Favor de adjuntar la captura del plano._`;
-    window.open(`https://api.whatsapp.org/send?text=${msg}`, '_system');
 }
 </script>
 </body>
