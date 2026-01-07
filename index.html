@@ -3,30 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOLAR RM PRO - Ingeniería Mexicana</title>
+    <title>SOLAR RM PRO - Certificación de Ingeniería</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #2240db; --accent: #fbc02d; --bg: #0b0b0b; }
         body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 0; }
-        .app-header { background: linear-gradient(to right, #000, #0a1855); padding: 15px; text-align: center; border-bottom: 2px solid var(--primary); }
+        .app-header { background: linear-gradient(to right, #000, #0a1855); padding: 20px; text-align: center; border-bottom: 2px solid var(--primary); }
         #form-container { padding: 25px; max-width: 450px; margin: 0 auto; }
         .input-group { margin-bottom: 15px; }
         label { font-size: 10px; color: var(--accent); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 5px; }
-        input, select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #1a1a1a; color: #fff; box-sizing: border-box; }
-        .btn-generate { background: var(--primary); color: white; width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 900; font-size: 16px; cursor: pointer; }
+        input, select { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #333; background: #1a1a1a; color: #fff; font-size: 16px; box-sizing: border-box; }
+        .btn-generate { background: var(--primary); color: white; width: 100%; padding: 18px; border: none; border-radius: 15px; font-weight: 900; font-size: 16px; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 15px rgba(34,64,219,0.4); }
 
-        /* AREA DE CAPTURA (DISEÑO PRO) */
+        /* PLANO TÉCNICO OCULTO */
         #capture-area { 
             position: absolute; left: -9999px; top: 0;
-            background: #fff; color: #000; width: 1100px; padding: 40px; box-sizing: border-box; border: 5px solid #000;
+            background: #fff; color: #000; width: 1100px; padding: 50px; box-sizing: border-box; border: 8px solid #000;
         }
-        .plano-border { border: 2px solid #000; padding: 20px; }
-        .comp-box { border: 2.5px solid #000; padding: 8px; text-align: center; font-family: 'Roboto Mono', monospace; font-size: 11px; font-weight: bold; background: #fff; }
-        .line-v { width: 2.5px; height: 30px; background: #000; margin: 0 auto; position: relative; }
-        .busbar { width: 95%; height: 8px; background: #000; margin: 10px auto; }
-        .footer-data { display: grid; grid-template-columns: 1.5fr 1fr; border-top: 2px solid #000; margin-top: 30px; padding-top: 15px; font-size: 11px; font-family: 'Roboto Mono', monospace; }
+        .plano-border { border: 3px solid #000; padding: 30px; position: relative; }
+        .comp-box { border: 3px solid #000; padding: 12px; text-align: center; font-family: 'Roboto Mono', monospace; font-size: 14px; font-weight: bold; background: #fff; }
+        .line-v { width: 4px; height: 40px; background: #000; margin: 0 auto; }
+        .busbar { width: 100%; height: 12px; background: #000; margin: 20px 0; }
+        .footer-data { display: grid; grid-template-columns: 1.5fr 1fr; border-top: 4px solid #000; margin-top: 40px; padding-top: 20px; font-size: 13px; font-family: 'Roboto Mono', monospace; }
     </style>
 </head>
 <body>
@@ -34,61 +34,63 @@
 <div class="app-header"><h1>SOLAR<span>RM</span> PRO</h1></div>
 
 <div id="form-container">
-    <div class="input-group"><label>Nombre del Proyecto</label><input type="text" id="cliente" placeholder="Ej. Residencia Reyes"></div>
+    <div class="input-group"><label>Nombre del Proyecto</label><input type="text" id="cliente" placeholder="Ej. Sistema Reyes CFE"></div>
     <div style="display:flex; gap:10px;">
         <div class="input-group" style="flex:1;"><label>Wp Panel</label><input type="number" id="wPan" value="550"></div>
-        <div class="input-group" style="flex:1;"><label>Cant. Paneles</label><input type="number" id="nPan" value="10"></div>
+        <div class="input-group" style="flex:1;"><label>Cant. Paneles</label><input type="number" id="nPan" value="12"></div>
     </div>
     <div class="input-group"><label>Capacidad Inversor (kW)</label><input type="number" id="capInv" value="5"></div>
     <div class="input-group">
-        <label>Tensión Red CFE</label>
+        <label>Tensión Red (México)</label>
         <select id="red">
-            <option value="220">220V (Trifásico/Bifásico)</option>
-            <option value="440">440V (Trifásico Industrial)</option>
-            <option value="127">127V (Monofásico)</option>
+            <option value="220">220V Trifásico / Bifásico</option>
+            <option value="127">127V Monofásico</option>
+            <option value="440">440V Industrial</option>
         </select>
     </div>
-    <button class="btn-generate" onclick="procesar()">DISEÑAR PLANO PROFESIONAL</button>
+    <button class="btn-generate" onclick="procesar()">GENERAR PDF OFICIAL</button>
 </div>
 
 <div id="capture-area">
     <div class="plano-border">
-        <div style="display:flex; justify-content:space-between; border-bottom:3px solid #000; padding-bottom:10px;">
-            <div><h2 style="margin:0;">DIAGRAMA UNIFILAR - NOM-001-SEDE</h2>PROYECTO: <b id="out-cliente"></b></div>
-            <div style="text-align:right;"><b>SOLAR RM PRO</b><br>FECHA: <span id="out-fecha"></span></div>
+        <div style="display:flex; justify-content:space-between; border-bottom:5px solid #000; padding-bottom:15px; align-items:center;">
+            <div><h1 style="margin:0; font-size:28px;">DIAGRAMA UNIFILAR FOTOVOLTAICO</h1>PROYECTO: <b id="out-cliente" style="font-size:22px; color:#2240db;"></b></div>
+            <div style="text-align:right;"><b>INGENIERÍA SOLAR RM</b><br>FECHA: <span id="out-fecha"></span></div>
         </div>
-        <div style="margin-top:20px; text-align:center;">
-            <div class="comp-box" style="width:350px; margin:0 auto;">GENERADOR FOTOVOLTAICO<br><span id="out-dc"></span></div>
+        <div style="margin-top:40px; text-align:center;">
+            <div class="comp-box" style="width:450px; margin:0 auto;">GENERADOR DC: <span id="out-dc"></span><br>POTENCIA TOTAL: <span id="out-kwcc"></span> kWp</div>
             <div class="line-v"></div>
-            <div class="comp-box" style="width:140px; margin:0 auto;">INVERSOR INTERACTIVO<br><span id="out-inv"></span> kW</div>
+            <div class="comp-box" style="width:200px; margin:0 auto;">INVERSOR INTERACTIVO<br><span id="out-inv"></span> kW</div>
             <div class="line-v"></div>
         </div>
         <div class="busbar"></div>
-        <div class="comp-box" style="width:450px; margin:0 auto; padding:15px;">INTERRUPTOR PRINCIPAL (CFE)<br><span id="out-itm"></span>A / <span id="out-polos"></span>P @ <span id="out-v"></span>V</div>
+        <p style="text-align:center; font-weight:bold; margin:0;">TABLERO DE AGREGACIÓN AC (NOM-001-SEDE)</p>
+        <div class="line-v" style="height:20px;"></div>
+        <div class="comp-box" style="width:600px; margin:0 auto; padding:20px; border-width:5px;">
+            INTERRUPTOR PRINCIPAL (MEDIO DE DESCONEXIÓN CFE)<br>
+            <span id="out-itm"></span>A / <span id="out-polos"></span>P @ <span id="out-v"></span>V
+        </div>
         <div class="line-v"></div>
-        <div style="text-align:center; font-weight:900; font-size:18px; border:2px dashed #000; padding:10px; width:40%; margin:0 auto;">ACOMETIDA CFE</div>
+        <div style="text-align:center; font-weight:900; font-size:22px; border:3px dashed #000; padding:15px; width:45%; margin:0 auto; background:#eee;">ACOMETIDA RED CFE</div>
         <div class="footer-data">
-            <div><b>CUMPLIMIENTO:</b><br>• Art. 690-42 (Tierra)<br>• Art. 705-22 (Desconectador CFE)</div>
-            <div style="text-align:right;"><b>TOTALES:</b><br>DC: <span id="out-kwcc"></span> kWp<br>AC: <span id="out-kwca"></span> kW</div>
+            <div><b>CUMPLIMIENTO NORMATIVO:</b><br>• Art. 690-42 (Puesta a Tierra)<br>• Art. 705-22 (Desconectador Visible)<br>• Basado en NOM-001-SEDE-2012</div>
+            <div style="text-align:right;"><b>RESUMEN TÉCNICO:</b><br>CAPACIDAD AC: <span id="out-kwca"></span> kW<br>TENSIÓN NOMINAL: <span id="out-v2"></span>V</div>
         </div>
     </div>
 </div>
 
 <script>
 function procesar() {
-    // 1. Obtener Datos
-    const cliente = document.getElementById('cliente').value || "PROYECTO";
+    const cliente = document.getElementById('cliente').value || "SISTEMA SOLAR";
     const wPan = parseInt(document.getElementById('wPan').value);
     const nPan = parseInt(document.getElementById('nPan').value);
     const capInv = parseFloat(document.getElementById('capInv').value);
     const red = parseFloat(document.getElementById('red').value);
     
-    // 2. Cálculos de Ingeniería Mexicana
     const polos = red > 127 ? 3 : 1;
     const iNominal = (capInv * 1000) / (red * (polos === 3 ? 1.732 : 1) * 0.95);
     const bPpal = [15,20,30,40,50,60,70,80,100,125,150,200].find(v => v >= iNominal * 1.25) || 200;
 
-    // 3. Llenar el Plano
     document.getElementById('out-cliente').innerText = cliente.toUpperCase();
     document.getElementById('out-fecha').innerText = new Date().toLocaleDateString();
     document.getElementById('out-dc').innerText = `${nPan} MÓDULOS DE ${wPan}W`;
@@ -96,26 +98,35 @@ function procesar() {
     document.getElementById('out-itm').innerText = bPpal;
     document.getElementById('out-polos').innerText = polos;
     document.getElementById('out-v').innerText = red;
+    document.getElementById('out-v2').innerText = red;
     document.getElementById('out-kwcc').innerText = (nPan * wPan / 1000).toFixed(2);
     document.getElementById('out-kwca').innerText = capInv.toFixed(2);
 
-    // 4. Generar Imagen y Abrir Ventana Nueva (Truco Anti-Crash)
-    const area = document.getElementById('capture-area');
-    html2canvas(area, { scale: 2 }).then(canvas => {
-        const imgData = canvas.toDataURL('image/jpeg', 0.9);
+    html2canvas(document.getElementById('capture-area'), { scale: 3 }).then(canvas => {
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
         const win = window.open("");
         win.document.write(`
             <html>
-            <head><title>Plano Solar RM PRO</title></head>
-            <body style="margin:0; background:#000; color:#fff; font-family:sans-serif; text-align:center; padding:20px;">
-                <h2 style="color:#fbc02d;">PLANO GENERADO EXITOSAMENTE</h2>
-                <p>1. Mantén presionada la imagen para <b>Guardar en Galería</b></p>
-                <img src="${imgData}" style="width:100%; max-width:1000px; border:3px solid #fff; border-radius:10px;">
-                <br><br>
-                <button onclick="window.location.href='https://wa.me/?text=Hola,%20te%20envio%20el%20plano%20del%20proyecto%20${cliente.replace(/ /g, '%20')}'" 
-                style="padding:15px; background:#25D366; color:#fff; border:none; border-radius:10px; width:90%; font-weight:bold; font-size:16px;">
-                    <i class="fa-brands fa-whatsapp"></i> COMPARTIR POR WHATSAPP
-                </button>
+            <head>
+                <title>PDF SOLAR RM - ${cliente}</title>
+                <style>
+                    body { margin:0; text-align:center; font-family:sans-serif; background:#222; color:#fff; padding-bottom:50px; }
+                    .btn-group { position:sticky; top:0; background:#111; padding:20px; display:flex; flex-direction:column; gap:10px; z-index:100; border-bottom:2px solid #2240db; }
+                    .btn { padding:18px; border:none; border-radius:12px; font-weight:bold; font-size:16px; color:white; cursor:pointer; }
+                    @media print { .btn-group, .instrucciones { display:none; } body { background:white; } img { width:100%; } }
+                </style>
+            </head>
+            <body>
+                <div class="btn-group">
+                    <button class="btn" style="background:#4caf50;" onclick="window.print()">📥 GUARDAR COMO PDF</button>
+                    <button class="btn" style="background:#25d366;" onclick="window.location.href='https://wa.me/?text=Plano%20Solar%20${cliente.replace(/ /g,'%20')}'">📱 ENVIAR WHATSAPP</button>
+                    <button class="btn" style="background:#f44336;" onclick="window.close()">❌ CERRAR</button>
+                </div>
+                <div class="instrucciones">
+                    <p><b>Para PDF:</b> Clic en el botón verde y elige "Guardar como PDF".</p>
+                    <p><b>Para Imagen:</b> Mantén presionada la imagen de abajo.</p>
+                </div>
+                <img src="${imgData}" style="width:100%; max-width:1000px; border:2px solid #fff; margin-top:10px;">
             </body>
             </html>
         `);
