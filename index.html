@@ -2,135 +2,299 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOLAR RM PRO - Certificación de Ingeniería</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SISTEMA DE INGENIERÍA VIP</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #2240db; --accent: #fbc02d; --bg: #0b0b0b; }
-        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 0; }
-        .app-header { background: linear-gradient(to right, #000, #0a1855); padding: 20px; text-align: center; border-bottom: 2px solid var(--primary); }
-        #form-container { padding: 25px; max-width: 450px; margin: 0 auto; }
-        .input-group { margin-bottom: 15px; }
-        label { font-size: 10px; color: var(--accent); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 5px; }
-        input, select { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #333; background: #1a1a1a; color: #fff; font-size: 16px; box-sizing: border-box; }
-        .btn-generate { background: var(--primary); color: white; width: 100%; padding: 18px; border: none; border-radius: 15px; font-weight: 900; font-size: 16px; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 15px rgba(34,64,219,0.4); }
+        :root { --primary: #FFD700; --bg: #0b0b0b; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 0; width: 100%; overflow-x: hidden; }
+        
+        .app-header { background: #000; padding: 15px; text-align: center; border-bottom: 3px solid var(--primary); }
+        
+        #form-container { padding: 20px; max-width: 600px; margin: 20px auto; background: #111; border-radius: 12px; border: 1px solid #333; box-sizing: border-box; }
+        
+        /* Gestión de Logo */
+        .logo-upload { border: 2px dashed #444; padding: 15px; text-align: center; margin-bottom: 15px; border-radius: 8px; cursor: pointer; }
+        .logo-preview-thumb { max-height: 40px; display: none; margin: 5px auto; }
 
-        /* PLANO TÉCNICO OCULTO */
+        /* Historial */
+        .history-section { margin-top: 20px; background: #1a1a1a; padding: 15px; border-radius: 8px; border: 1px solid #333; }
+        .project-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #333; font-size: 12px; }
+        .btn-load { background: var(--primary); color: #000; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-del { background: #f44336; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; margin-left: 5px; }
+
+        label { font-size: 10px; color: var(--primary); text-transform: uppercase; font-weight: 700; display: block; margin-top: 12px; }
+        input, select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #333; background: #1a1a1a; color: #fff; margin-top: 5px; box-sizing: border-box; }
+        
+        .btn-vip { background: var(--primary); color: #000; width: 100%; padding: 18px; border: none; border-radius: 10px; font-weight: 900; font-size: 16px; cursor: pointer; margin-top: 20px; }
+
+        /* VISTA DEL PLANO */
+        #plano-view { display: none; background: #222; min-height: 100vh; width: 100vw; position: relative; overflow: hidden; }
+        
         #capture-area { 
-            position: absolute; left: -9999px; top: 0;
-            background: #fff; color: #000; width: 1100px; padding: 50px; box-sizing: border-box; border: 8px solid #000;
+            background: #fff; color: #000; width: 1050px; padding: 30px; 
+            border: 3px solid #000; position: absolute; left: 50%; top: 10px;
+            transform-origin: top center; box-sizing: border-box;
         }
-        .plano-border { border: 3px solid #000; padding: 30px; position: relative; }
-        .comp-box { border: 3px solid #000; padding: 12px; text-align: center; font-family: 'Roboto Mono', monospace; font-size: 14px; font-weight: bold; background: #fff; }
-        .line-v { width: 4px; height: 40px; background: #000; margin: 0 auto; }
-        .busbar { width: 100%; height: 12px; background: #000; margin: 20px 0; }
-        .footer-data { display: grid; grid-template-columns: 1.5fr 1fr; border-top: 4px solid #000; margin-top: 40px; padding-top: 20px; font-size: 13px; font-family: 'Roboto Mono', monospace; }
+
+        /* Ajuste de Logo en Plano */
+        .logo-container-plano { height: 50px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 5px; }
+        #plano-logo-img { max-height: 100%; max-width: 120px; object-fit: contain; }
+
+        .header-table { width: 100%; border: 3px solid #000; border-collapse: collapse; margin-bottom: 15px; }
+        .header-table td { border: 1.5px solid #000; padding: 6px; font-size: 12px; }
+
+        .diagrama-container { display: flex; flex-direction: column; align-items: center; margin: 20px 0; }
+        .simbolo { border: 2.5px solid #000; padding: 10px; text-align: center; font-weight: bold; min-width: 150px; font-size: 11px; background: white; }
+        .linea-v { width: 2.5px; height: 35px; background: #000; position: relative; }
+        .espec-cable { position: absolute; left: 15px; top: 5px; font-size: 10px; font-family: 'Roboto Mono'; width: 450px; text-align: left; font-weight: bold; }
+        
+        .inv-box { width: 65px; height: 65px; border: 2.5px solid #000; display: flex; align-items: center; justify-content: center; position: relative; font-weight: bold; }
+        .inv-box::after { content: ''; position: absolute; width: 92px; height: 2.5px; background: #000; transform: rotate(45deg); }
+        .medidor { width: 55px; height: 55px; border: 2.5px solid #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; }
+        
+        .table-specs { width: 100%; border-collapse: collapse; margin-top: 15px; font-family: 'Roboto Mono'; font-size: 11px; }
+        .table-specs td { border: 2px solid #000; padding: 8px; }
+
+        .footer-plano { margin-top: 15px; display: grid; grid-template-columns: 2fr 1fr; gap: 15px; border-top: 3px solid #000; padding-top: 10px; }
+        .notas { font-size: 10px; line-height: 1.4; }
+        .cuadro-firmas { border: 2.5px solid #000; height: 95px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 5px; font-size: 11px; font-weight: bold; text-align: center; }
+
+        .controls { position: fixed; bottom: 15px; left: 0; width: 100%; display: flex; justify-content: center; gap: 10px; z-index: 9999; }
+        .btn-f { padding: 12px 20px; border-radius: 50px; border: none; color: #fff; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.6); font-size: 12px; }
     </style>
 </head>
 <body>
 
-<div class="app-header"><h1>SOLAR<span>RM</span> PRO</h1></div>
+<div class="app-header"><h1>INGENIERÍA <span style="color:var(--primary)">VIP</span></h1></div>
 
 <div id="form-container">
-    <div class="input-group"><label>Nombre del Proyecto</label><input type="text" id="cliente" placeholder="Ej. Sistema Reyes CFE"></div>
-    <div style="display:flex; gap:10px;">
-        <div class="input-group" style="flex:1;"><label>Wp Panel</label><input type="number" id="wPan" value="550"></div>
-        <div class="input-group" style="flex:1;"><label>Cant. Paneles</label><input type="number" id="nPan" value="12"></div>
+    <label>Nombre de tu Compañía</label>
+    <input type="text" id="nombre_empresa" placeholder="Ej. Solar Energy MX" oninput="localStorage.setItem('vip_empresa', this.value)">
+
+    <div class="logo-upload" onclick="document.getElementById('logo-input').click()">
+        <span id="upload-text">📁 Toca para subir tu LOGO</span>
+        <input type="file" id="logo-input" hidden accept="image/*" onchange="previewLogo(this)">
+        <img id="logo-preview" class="logo-preview-thumb">
     </div>
-    <div class="input-group"><label>Capacidad Inversor (kW)</label><input type="number" id="capInv" value="5"></div>
-    <div class="input-group">
-        <label>Tensión Red (México)</label>
-        <select id="red">
-            <option value="220">220V Trifásico / Bifásico</option>
-            <option value="127">127V Monofásico</option>
-            <option value="440">440V Industrial</option>
-        </select>
+
+    <label>Nombre del Cliente</label><input type="text" id="cliente" placeholder="Cliente">
+    <label>RPU CFE</label><input type="text" id="rpu" maxlength="12">
+    <label>Ubicación</label><input type="text" id="ubicacion" placeholder="Ciudad, Estado">
+    
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+        <div><label>Potencia kW</label><input type="number" id="kw" value="5"></div>
+        <div><label>Red</label>
+            <select id="red">
+                <option value="127">1F-127V</option>
+                <option value="220-2" selected>2F-220V</option>
+                <option value="220-3">3F-220V</option>
+            </select>
+        </div>
     </div>
-    <button class="btn-generate" onclick="procesar()">GENERAR PDF OFICIAL</button>
+    
+    <label>Responsable Técnico</label>
+    <input type="text" id="responsable" placeholder="Tu nombre" oninput="localStorage.setItem('vip_resp', this.value)">
+
+    <button class="btn-vip" onclick="generarVip()">GENERAR Y GUARDAR PROYECTO</button>
+
+    <div class="history-section">
+        <b style="color:var(--primary); font-size: 12px;">PROYECTOS GUARDADOS:</b>
+        <div id="project-list" style="margin-top:10px;"></div>
+    </div>
 </div>
 
-<div id="capture-area">
-    <div class="plano-border">
-        <div style="display:flex; justify-content:space-between; border-bottom:5px solid #000; padding-bottom:15px; align-items:center;">
-            <div><h1 style="margin:0; font-size:28px;">DIAGRAMA UNIFILAR FOTOVOLTAICO</h1>PROYECTO: <b id="out-cliente" style="font-size:22px; color:#2240db;"></b></div>
-            <div style="text-align:right;"><b>INGENIERÍA SOLAR RM</b><br>FECHA: <span id="out-fecha"></span></div>
+<div id="plano-view">
+    <div id="capture-area">
+        <table class="header-table">
+            <tr>
+                <td rowspan="2" style="width:170px; text-align:center;">
+                    <div class="logo-container-plano">
+                        <img id="plano-logo-img" src="">
+                    </div>
+                    <b id="plano-empresa-txt" style="font-size:14px; text-transform:uppercase;">MI COMPAÑIA</b>
+                </td>
+                <td colspan="2"><b>PROYECTO:</b> SISTEMA FOTOVOLTAICO INTERCONECTADO (SFVI)</td>
+                <td><b>PLANO:</b> DU-01</td>
+            </tr>
+            <tr>
+                <td><b>CLIENTE:</b> <span id="out-cliente"></span></td>
+                <td><b>RPU:</b> <span id="out-rpu"></span></td>
+                <td><b>FECHA:</b> <span id="out-fecha"></span></td>
+            </tr>
+        </table>
+
+        <div class="diagrama-container">
+            <div class="simbolo">GENERADOR FV: <span id="out-txt-paneles"></span></div>
+            <div class="linea-v"><div class="espec-cable">2-CABLE SOLAR 10 AWG (600V) + 1-10 T | TUB. PG 1/2"</div></div>
+            <div class="simbolo">DESCONECTADOR DC 1000VDC / 32A</div>
+            <div class="linea-v"></div>
+            <div class="inv-box">INV</div>
+            <div style="font-size:11px; font-weight:bold; margin-top:5px;">INV. INTERCONECTADO <span id="out-inv-kw"></span>kW</div>
+            <div class="linea-v"><div class="espec-cable" id="out-cable-ac"></div></div>
+            <div class="simbolo">INT. PRINCIPAL: <span id="out-itm"></span>A - <span id="out-polos"></span>P</div>
+            <div class="linea-v"><div class="espec-cable" id="out-cable-med"></div></div>
+            <div class="medidor">kWh</div>
+            <div class="linea-v"></div>
+            <div class="simbolo" style="border:3.5px solid #000; padding:15px; font-size:13px;">ACOMETIDA RED ELÉCTRICA (CFE)</div>
         </div>
-        <div style="margin-top:40px; text-align:center;">
-            <div class="comp-box" style="width:450px; margin:0 auto;">GENERADOR DC: <span id="out-dc"></span><br>POTENCIA TOTAL: <span id="out-kwcc"></span> kWp</div>
-            <div class="line-v"></div>
-            <div class="comp-box" style="width:200px; margin:0 auto;">INVERSOR INTERACTIVO<br><span id="out-inv"></span> kW</div>
-            <div class="line-v"></div>
+
+        <table class="table-specs">
+            <tr style="background:#eee;"><th>SISTEMA DC (GENERACIÓN)</th><th>SISTEMA AC (SALIDA)</th><th>NORMATIVA</th></tr>
+            <tr>
+                <td>P. TOTAL: <span id="t-p-dc"></span><br>Vmp: 400 VDC | Certificación: UL-1741</td>
+                <td>P. NOMINAL: <span id="t-p-ac"></span> kW<br>V. NOMINAL: <span id="t-v-ac"></span>V | In: <span id="t-i-ac"></span>A</td>
+                <td>NOM-001-SEDE-2012 Art. 690 / 705<br>ESPECIFICACIÓN CFE G0100-04</td>
+            </tr>
+        </table>
+
+        <div class="footer-plano">
+            <div class="notas">
+                <b>NOTAS:</b> 1. Conductores THWN-2 75°C. 2. Canalización metálica.<br>
+                3. Puesta a tierra con electrodo 5/8" x 1.5m.<br>
+                4. Protección anti-isla integrada según IEEE 1547.
+            </div>
+            <div class="cuadro-firmas">
+                <div style="width:85%; border-top:1.5px solid #000;">
+                    <span id="out-firma"></span><br>RESPONSABLE TÉCNICO
+                </div>
+            </div>
         </div>
-        <div class="busbar"></div>
-        <p style="text-align:center; font-weight:bold; margin:0;">TABLERO DE AGREGACIÓN AC (NOM-001-SEDE)</p>
-        <div class="line-v" style="height:20px;"></div>
-        <div class="comp-box" style="width:600px; margin:0 auto; padding:20px; border-width:5px;">
-            INTERRUPTOR PRINCIPAL (MEDIO DE DESCONEXIÓN CFE)<br>
-            <span id="out-itm"></span>A / <span id="out-polos"></span>P @ <span id="out-v"></span>V
-        </div>
-        <div class="line-v"></div>
-        <div style="text-align:center; font-weight:900; font-size:22px; border:3px dashed #000; padding:15px; width:45%; margin:0 auto; background:#eee;">ACOMETIDA RED CFE</div>
-        <div class="footer-data">
-            <div><b>CUMPLIMIENTO NORMATIVO:</b><br>• Art. 690-42 (Puesta a Tierra)<br>• Art. 705-22 (Desconectador Visible)<br>• Basado en NOM-001-SEDE-2012</div>
-            <div style="text-align:right;"><b>RESUMEN TÉCNICO:</b><br>CAPACIDAD AC: <span id="out-kwca"></span> kW<br>TENSIÓN NOMINAL: <span id="out-v2"></span>V</div>
-        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn-f" style="background:#444;" onclick="regresar()">EDITAR</button>
+        <button class="btn-f" style="background:#2196F3;" onclick="ajustarEscala()">RE-AJUSTAR</button>
     </div>
 </div>
 
 <script>
-function procesar() {
-    const cliente = document.getElementById('cliente').value || "SISTEMA SOLAR";
-    const wPan = parseInt(document.getElementById('wPan').value);
-    const nPan = parseInt(document.getElementById('nPan').value);
-    const capInv = parseFloat(document.getElementById('capInv').value);
-    const red = parseFloat(document.getElementById('red').value);
+let logoBase64 = localStorage.getItem('vip_logo') || "";
+let proyectos = JSON.parse(localStorage.getItem('vip_proyectos')) || [];
+
+window.onload = function() {
+    if(logoBase64) {
+        const prev = document.getElementById('logo-preview');
+        prev.src = logoBase64;
+        prev.style.display = 'block';
+        document.getElementById('upload-text').style.display = 'none';
+    }
+    document.getElementById('nombre_empresa').value = localStorage.getItem('vip_empresa') || "";
+    document.getElementById('responsable').value = localStorage.getItem('vip_resp') || "";
+    renderProyectos();
+}
+
+function previewLogo(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            logoBase64 = e.target.result;
+            localStorage.setItem('vip_logo', logoBase64);
+            const prev = document.getElementById('logo-preview');
+            prev.src = logoBase64;
+            prev.style.display = 'block';
+            document.getElementById('upload-text').style.display = 'none';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function generarVip() {
+    const cliente = document.getElementById('cliente').value || "CLIENTE";
+    const empresa = document.getElementById('nombre_empresa').value || "MI EMPRESA";
     
-    const polos = red > 127 ? 3 : 1;
-    const iNominal = (capInv * 1000) / (red * (polos === 3 ? 1.732 : 1) * 0.95);
-    const bPpal = [15,20,30,40,50,60,70,80,100,125,150,200].find(v => v >= iNominal * 1.25) || 200;
+    // Guardar Proyecto en Historial
+    const nuevoProyecto = {
+        id: Date.now(),
+        empresa: empresa,
+        cliente: cliente,
+        rpu: document.getElementById('rpu').value,
+        kw: document.getElementById('kw').value,
+        red: document.getElementById('red').value,
+        resp: document.getElementById('responsable').value
+    };
+    proyectos.unshift(nuevoProyecto);
+    if(proyectos.length > 10) proyectos.pop(); // Guardar últimos 10
+    localStorage.setItem('vip_proyectos', JSON.stringify(proyectos));
+    renderProyectos();
 
+    // Llenar Datos Plano
+    const kw = parseFloat(document.getElementById('kw').value) || 0;
+    const v_real = document.getElementById('red').value.split('-')[0];
+    const polos = document.getElementById('red').value === '127' ? 1 : (document.getElementById('red').value === '220-2' ? 2 : 3);
+    const i_nom = (kw * 1000) / (v_real * (polos === 3 ? 1.732 : 1) * 0.95);
+    const itm = [15,20,30,40,50,60,100].find(x => x >= i_nom * 1.25) || 100;
+    const calibre = itm <= 30 ? "10 AWG" : "8 AWG";
+
+    document.getElementById('plano-empresa-txt').innerText = empresa;
     document.getElementById('out-cliente').innerText = cliente.toUpperCase();
+    document.getElementById('out-rpu').innerText = document.getElementById('rpu').value;
     document.getElementById('out-fecha').innerText = new Date().toLocaleDateString();
-    document.getElementById('out-dc').innerText = `${nPan} MÓDULOS DE ${wPan}W`;
-    document.getElementById('out-inv').innerText = capInv;
-    document.getElementById('out-itm').innerText = bPpal;
+    document.getElementById('out-inv-kw').innerText = kw;
+    document.getElementById('out-itm').innerText = itm;
     document.getElementById('out-polos').innerText = polos;
-    document.getElementById('out-v').innerText = red;
-    document.getElementById('out-v2').innerText = red;
-    document.getElementById('out-kwcc').innerText = (nPan * wPan / 1000).toFixed(2);
-    document.getElementById('out-kwca').innerText = capInv.toFixed(2);
+    document.getElementById('out-firma').innerText = document.getElementById('responsable').value.toUpperCase();
+    document.getElementById('t-p-ac').innerText = kw;
+    document.getElementById('t-v-ac').innerText = v_real;
+    document.getElementById('t-i-ac').innerText = i_nom.toFixed(2);
+    document.getElementById('t-p-dc').innerText = (kw * 1.15).toFixed(2) + " kWp";
+    document.getElementById('out-txt-paneles').innerText = "ARREGLO DE PANELES EN SERIE/PARALELO";
 
-    html2canvas(document.getElementById('capture-area'), { scale: 3 }).then(canvas => {
-        const imgData = canvas.toDataURL('image/jpeg', 1.0);
-        const win = window.open("");
-        win.document.write(`
-            <html>
-            <head>
-                <title>PDF SOLAR RM - ${cliente}</title>
-                <style>
-                    body { margin:0; text-align:center; font-family:sans-serif; background:#222; color:#fff; padding-bottom:50px; }
-                    .btn-group { position:sticky; top:0; background:#111; padding:20px; display:flex; flex-direction:column; gap:10px; z-index:100; border-bottom:2px solid #2240db; }
-                    .btn { padding:18px; border:none; border-radius:12px; font-weight:bold; font-size:16px; color:white; cursor:pointer; }
-                    @media print { .btn-group, .instrucciones { display:none; } body { background:white; } img { width:100%; } }
-                </style>
-            </head>
-            <body>
-                <div class="btn-group">
-                    <button class="btn" style="background:#4caf50;" onclick="window.print()">📥 GUARDAR COMO PDF</button>
-                    <button class="btn" style="background:#25d366;" onclick="window.location.href='https://wa.me/?text=Plano%20Solar%20${cliente.replace(/ /g,'%20')}'">📱 ENVIAR WHATSAPP</button>
-                    <button class="btn" style="background:#f44336;" onclick="window.close()">❌ CERRAR</button>
-                </div>
-                <div class="instrucciones">
-                    <p><b>Para PDF:</b> Clic en el botón verde y elige "Guardar como PDF".</p>
-                    <p><b>Para Imagen:</b> Mantén presionada la imagen de abajo.</p>
-                </div>
-                <img src="${imgData}" style="width:100%; max-width:1000px; border:2px solid #fff; margin-top:10px;">
-            </body>
-            </html>
-        `);
+    const txtCable = `${polos + 1}-${calibre} THWN-2 + 1-${calibre} T | TUB. PG 1/2"`;
+    document.getElementById('out-cable-ac').innerHTML = txtCable;
+    document.getElementById('out-cable-med').innerHTML = txtCable;
+
+    if(logoBase64) {
+        document.getElementById('plano-logo-img').src = logoBase64;
+        document.getElementById('plano-logo-img').style.display = 'block';
+    }
+
+    document.getElementById('form-container').style.display = 'none';
+    document.getElementById('plano-view').style.display = 'block';
+    setTimeout(ajustarEscala, 300);
+}
+
+function renderProyectos() {
+    const list = document.getElementById('project-list');
+    list.innerHTML = proyectos.length === 0 ? "<small>No hay proyectos guardados.</small>" : "";
+    proyectos.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'project-item';
+        div.innerHTML = `<span>${p.cliente} (${p.kw}kW)</span> 
+                        <div>
+                            <button class="btn-load" onclick="cargarProyecto(${p.id})">Cargar</button>
+                            <button class="btn-del" onclick="borrarProyecto(${p.id})">X</button>
+                        </div>`;
+        list.appendChild(div);
     });
+}
+
+function cargarProyecto(id) {
+    const p = proyectos.find(x => x.id === id);
+    document.getElementById('cliente').value = p.cliente;
+    document.getElementById('rpu').value = p.rpu;
+    document.getElementById('kw').value = p.kw;
+    document.getElementById('red').value = p.red;
+    document.getElementById('responsable').value = p.resp;
+    alert("Proyecto cargado. Dale clic a Generar para verlo.");
+}
+
+function borrarProyecto(id) {
+    proyectos = proyectos.filter(x => x.id !== id);
+    localStorage.setItem('vip_proyectos', JSON.stringify(proyectos));
+    renderProyectos();
+}
+
+function ajustarEscala() {
+    const area = document.getElementById('capture-area');
+    const escala = (window.innerWidth - 10) / 1050;
+    area.style.transform = `translateX(-50%) scale(${escala})`;
+    document.getElementById('plano-view').style.height = (area.getBoundingClientRect().height + 150) + 'px';
+}
+
+function regresar() {
+    document.getElementById('form-container').style.display = 'block';
+    document.getElementById('plano-view').style.display = 'none';
 }
 </script>
 </body>
