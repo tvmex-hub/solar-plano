@@ -16,11 +16,6 @@
         .logo-upload { border: 2px dashed #444; padding: 15px; text-align: center; margin-bottom: 15px; border-radius: 8px; cursor: pointer; }
         .logo-preview-thumb { max-height: 40px; display: none; margin: 5px auto; }
 
-        .history-section { margin-top: 20px; background: #1a1a1a; padding: 15px; border-radius: 8px; border: 1px solid #333; }
-        .project-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #333; font-size: 12px; }
-        .btn-load { background: var(--primary); color: #000; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .btn-del { background: #f44336; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; margin-left: 5px; }
-
         label { font-size: 10px; color: var(--primary); text-transform: uppercase; font-weight: 700; display: block; margin-top: 12px; }
         input, select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #333; background: #1a1a1a; color: #fff; margin-top: 5px; box-sizing: border-box; }
         
@@ -28,37 +23,32 @@
 
         /* VISTA DEL PLANO */
         #plano-view { display: none; background: #222; min-height: 100vh; width: 100vw; position: relative; overflow: hidden; }
-        
         #capture-area { 
             background: #fff; color: #000; width: 1050px; padding: 30px; 
             border: 3px solid #000; position: absolute; left: 50%; top: 10px;
             transform-origin: top center; box-sizing: border-box;
         }
 
-        .logo-container-plano { height: 50px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 5px; }
-        #plano-logo-img { max-height: 100%; max-width: 120px; object-fit: contain; }
-
         .header-table { width: 100%; border: 3px solid #000; border-collapse: collapse; margin-bottom: 15px; }
         .header-table td { border: 1.5px solid #000; padding: 6px; font-size: 12px; }
 
-        .diagrama-container { display: flex; flex-direction: column; align-items: center; margin: 20px 0; }
-        .simbolo { border: 2.5px solid #000; padding: 10px; text-align: center; font-weight: bold; min-width: 150px; font-size: 11px; background: white; }
-        .linea-v { width: 2.5px; height: 35px; background: #000; position: relative; }
+        .diagrama-container { display: flex; flex-direction: column; align-items: center; margin: 15px 0; }
+        .simbolo { border: 2.5px solid #000; padding: 8px; text-align: center; font-weight: bold; min-width: 180px; font-size: 11px; background: white; }
+        .linea-v { width: 2.5px; height: 30px; background: #000; position: relative; }
         .espec-cable { position: absolute; left: 15px; top: 5px; font-size: 10px; font-family: 'Roboto Mono'; width: 450px; text-align: left; font-weight: bold; }
         
-        .inv-box { width: 65px; height: 65px; border: 2.5px solid #000; display: flex; align-items: center; justify-content: center; position: relative; font-weight: bold; }
-        .inv-box::after { content: ''; position: absolute; width: 92px; height: 2.5px; background: #000; transform: rotate(45deg); }
-        .medidor { width: 55px; height: 55px; border: 2.5px solid #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; }
+        .inv-box { width: 60px; height: 60px; border: 2.5px solid #000; display: flex; align-items: center; justify-content: center; position: relative; font-weight: bold; }
+        .inv-box::after { content: ''; position: absolute; width: 85px; height: 2.5px; background: #000; transform: rotate(45deg); }
+        .medidor { width: 50px; height: 50px; border: 2.5px solid #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; }
         
-        .table-specs { width: 100%; border-collapse: collapse; margin-top: 15px; font-family: 'Roboto Mono'; font-size: 11px; }
+        .table-specs { width: 100%; border-collapse: collapse; margin-top: 10px; font-family: 'Roboto Mono'; font-size: 11px; }
         .table-specs td { border: 2px solid #000; padding: 8px; }
 
         .footer-plano { margin-top: 15px; display: grid; grid-template-columns: 2fr 1fr; gap: 15px; border-top: 3px solid #000; padding-top: 10px; }
-        .notas { font-size: 10px; line-height: 1.4; }
-        .cuadro-firmas { border: 2.5px solid #000; height: 95px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 5px; font-size: 11px; font-weight: bold; text-align: center; }
+        .cuadro-firmas { border: 2.5px solid #000; height: 90px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 5px; font-size: 11px; font-weight: bold; }
 
         .controls { position: fixed; bottom: 15px; left: 0; width: 100%; display: flex; justify-content: center; gap: 10px; z-index: 9999; }
-        .btn-f { padding: 12px 20px; border-radius: 50px; border: none; color: #fff; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.6); font-size: 12px; }
+        .btn-f { padding: 12px 20px; border-radius: 50px; border: none; color: #fff; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -67,7 +57,7 @@
 
 <div id="form-container">
     <label>Nombre de tu Compañía</label>
-    <input type="text" id="nombre_empresa" placeholder="Ej. Solar Energy MX" oninput="localStorage.setItem('vip_empresa', this.value)">
+    <input type="text" id="nombre_empresa" placeholder="Ej. Solar Energy MX">
 
     <div class="logo-upload" onclick="document.getElementById('logo-input').click()">
         <span id="upload-text">📁 Toca para subir tu LOGO</span>
@@ -75,25 +65,20 @@
         <img id="logo-preview" class="logo-preview-thumb">
     </div>
 
-    <label>Nombre del Cliente</label><input type="text" id="cliente" placeholder="Cliente">
-    <label>RPU CFE</label><input type="text" id="rpu" maxlength="12">
+    <label>Nombre del Cliente</label><input type="text" id="cliente" placeholder="Nombre del Cliente">
     
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
         <div>
-            <label>Potencia Inversor (kW)</label>
-            <select id="kw">
-                <option value="1">1 kW</option>
-                <option value="2">2 kW</option>
-                <option value="3">3 kW</option>
-                <option value="5" selected>5 kW</option>
-                <option value="6">6 kW</option>
-                <option value="8">8 kW</option>
-                <option value="10">10 kW</option>
-                <option value="15">15 kW</option>
-                <option value="20">20 kW</option>
-                <option value="30">30 kW</option>
-            </select>
+            <label>Potencia TOTAL (kW)</label>
+            <input type="number" id="potencia_total" value="10" step="0.1">
         </div>
+        <div>
+            <label>Capacidad x Inversor (kW)</label>
+            <input type="number" id="cap_inv" value="5" step="0.1" placeholder="Ej: 5 o 7.6">
+        </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
         <div>
             <label>Watts por Panel</label>
             <select id="panel_watts">
@@ -105,11 +90,8 @@
                 <option value="660">660W</option>
             </select>
         </div>
-    </div>
-
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-        <div><label>Ubicación</label><input type="text" id="ubicacion" placeholder="Ciudad, Edo"></div>
-        <div><label>Red</label>
+        <div>
+            <label>Red Eléctrica</label>
             <select id="red">
                 <option value="127">1F-127V</option>
                 <option value="220-2" selected>2F-220V</option>
@@ -117,27 +99,20 @@
             </select>
         </div>
     </div>
-    
-    <label>Responsable Técnico</label>
-    <input type="text" id="responsable" placeholder="Tu nombre" oninput="localStorage.setItem('vip_resp', this.value)">
 
-    <button class="btn-vip" onclick="generarVip()">GENERAR Y GUARDAR PROYECTO</button>
+    <label>RPU CFE</label><input type="text" id="rpu" maxlength="12" placeholder="12 dígitos">
+    <label>Responsable Técnico</label><input type="text" id="responsable" placeholder="Tu nombre">
 
-    <div class="history-section">
-        <b style="color:var(--primary); font-size: 12px;">PROYECTOS GUARDADOS:</b>
-        <div id="project-list" style="margin-top:10px;"></div>
-    </div>
+    <button class="btn-vip" onclick="generarVip()">GENERAR PLANO Y CALCULAR</button>
 </div>
 
 <div id="plano-view">
     <div id="capture-area">
         <table class="header-table">
             <tr>
-                <td rowspan="2" style="width:170px; text-align:center;">
-                    <div class="logo-container-plano">
-                        <img id="plano-logo-img" src="">
-                    </div>
-                    <b id="plano-empresa-txt" style="font-size:14px; text-transform:uppercase;">MI COMPAÑIA</b>
+                <td rowspan="2" style="width:180px; text-align:center;">
+                    <img id="plano-logo-img" style="max-height:45px; margin-bottom:5px;"><br>
+                    <b id="plano-empresa-txt" style="font-size:12px; text-transform:uppercase;"></b>
                 </td>
                 <td colspan="2"><b>PROYECTO:</b> SISTEMA FOTOVOLTAICO INTERCONECTADO (SFVI)</td>
                 <td><b>PLANO:</b> DU-01</td>
@@ -151,36 +126,41 @@
 
         <div class="diagrama-container">
             <div class="simbolo">GENERADOR FV: <span id="out-txt-paneles"></span></div>
-            <div class="linea-v"><div class="espec-cable">2-CABLE SOLAR 10 AWG (600V) + 1-10 T | TUB. PG 1/2"</div></div>
-            <div class="simbolo">DESCONECTADOR DC 1000VDC / 32A</div>
+            <div class="linea-v"><div class="espec-cable">CABLE SOLAR 10 AWG (1000V) | TUB. PG 1/2"</div></div>
+            <div class="simbolo">DESCONECTADOR DC / SUPRESOR PICOS</div>
             <div class="linea-v"></div>
             <div class="inv-box">INV</div>
-            <div style="font-size:11px; font-weight:bold; margin-top:5px;">INV. INTERCONECTADO <span id="out-inv-kw"></span>kW</div>
+            <div style="font-size:11px; font-weight:bold; margin-top:5px; text-align:center;">
+                <span id="out-num-inv"></span> INVERSOR(ES) DE <span id="out-cap-inv"></span> kW<br>
+                CAPACIDAD TOTAL AC: <span id="out-pot-total"></span> kW
+            </div>
             <div class="linea-v"><div class="espec-cable" id="out-cable-ac"></div></div>
-            <div class="simbolo">INT. PRINCIPAL: <span id="out-itm"></span>A - <span id="out-polos"></span>P</div>
+            <div class="simbolo">PROT. AC: <span id="out-itm"></span>A - <span id="out-polos"></span>P</div>
             <div class="linea-v"><div class="espec-cable" id="out-cable-med"></div></div>
             <div class="medidor">kWh</div>
             <div class="linea-v"></div>
-            <div class="simbolo" style="border:3.5px solid #000; padding:15px; font-size:13px;">ACOMETIDA RED ELÉCTRICA (CFE)</div>
+            <div class="simbolo" style="border:3.5px solid #000; padding:12px; font-size:13px;">ACOMETIDA RED ELÉCTRICA (CFE)</div>
         </div>
 
         <table class="table-specs">
-            <tr style="background:#eee;"><th>SISTEMA DC (GENERACIÓN)</th><th>SISTEMA AC (SALIDA)</th><th>NORMATIVA</th></tr>
+            <tr style="background:#eee;"><th>ESPECIFICACIONES DC</th><th>ESPECIFICACIONES AC</th><th>NORMATIVA</th></tr>
             <tr>
-                <td>P. TOTAL DC: <span id="t-p-dc"></span><br>MÓDULOS: <span id="t-modulos"></span><br>Vmp: ~400 VDC</td>
-                <td>P. NOMINAL: <span id="t-p-ac"></span> kW<br>V. NOMINAL: <span id="t-v-ac"></span>V | In: <span id="t-i-ac"></span>A</td>
-                <td>NOM-001-SEDE-2012 Art. 690 / 705<br>ESPECIFICACIÓN CFE G0100-04</td>
+                <td>P. INSTALADA DC: <span id="t-p-dc"></span><br>MÓDULOS: <span id="t-modulos"></span></td>
+                <td>P. NOMINAL AC: <span id="t-p-ac"></span> kW<br>V. NOMINAL: <span id="t-v-ac"></span>V | In: <span id="t-i-ac"></span>A</td>
+                <td>NOM-001-SEDE-2012 / Art. 690<br>ESPECIFICACIÓN CFE G0100-04</td>
             </tr>
         </table>
 
         <div class="footer-plano">
-            <div class="notas">
-                <b>NOTAS:</b> 1. Conductores THWN-2 75°C. 2. Canalización metálica.<br>
+            <div style="font-size:10px; line-height:1.3;">
+                <b>NOTAS TÉCNICAS:</b><br>
+                1. Canalización conduit pared gruesa o galvanizada.<br>
+                2. Conductores de cobre tipo THWN-2 75°C.<br>
                 3. Puesta a tierra con electrodo 5/8" x 1.5m.<br>
-                4. Protección anti-isla integrada según IEEE 1547.
+                4. Protección anti-isla integrada según estándar IEEE 1547.
             </div>
             <div class="cuadro-firmas">
-                <div style="width:85%; border-top:1.5px solid #000;">
+                <div style="width:80%; border-top:1.5px solid #000; text-align:center;">
                     <span id="out-firma"></span><br>RESPONSABLE TÉCNICO
                 </div>
             </div>
@@ -188,25 +168,22 @@
     </div>
 
     <div class="controls">
-        <button class="btn-f" style="background:#444;" onclick="regresar()">EDITAR</button>
-        <button class="btn-f" style="background:#2196F3;" onclick="window.print()">IMPRIMIR PDF</button>
+        <button class="btn-f" style="background:#444;" onclick="regresar()">EDITAR DATOS</button>
+        <button class="btn-f" style="background:#2196F3;" onclick="window.print()">GUARDAR PLANO (PDF)</button>
     </div>
 </div>
 
 <script>
 let logoBase64 = localStorage.getItem('vip_logo') || "";
-let proyectos = JSON.parse(localStorage.getItem('vip_proyectos')) || [];
 
 window.onload = function() {
     if(logoBase64) {
-        const prev = document.getElementById('logo-preview');
-        prev.src = logoBase64;
-        prev.style.display = 'block';
+        document.getElementById('logo-preview').src = logoBase64;
+        document.getElementById('logo-preview').style.display = 'block';
         document.getElementById('upload-text').style.display = 'none';
     }
     document.getElementById('nombre_empresa').value = localStorage.getItem('vip_empresa') || "";
     document.getElementById('responsable').value = localStorage.getItem('vip_resp') || "";
-    renderProyectos();
 }
 
 function previewLogo(input) {
@@ -215,9 +192,8 @@ function previewLogo(input) {
         reader.onload = e => {
             logoBase64 = e.target.result;
             localStorage.setItem('vip_logo', logoBase64);
-            const prev = document.getElementById('logo-preview');
-            prev.src = logoBase64;
-            prev.style.display = 'block';
+            document.getElementById('logo-preview').src = logoBase64;
+            document.getElementById('logo-preview').style.display = 'block';
             document.getElementById('upload-text').style.display = 'none';
         };
         reader.readAsDataURL(input.files[0]);
@@ -225,60 +201,60 @@ function previewLogo(input) {
 }
 
 function generarVip() {
-    const cliente = document.getElementById('cliente').value || "CLIENTE";
-    const empresa = document.getElementById('nombre_empresa').value || "MI EMPRESA";
-    const kw = parseFloat(document.getElementById('kw').value);
+    const pTotal = parseFloat(document.getElementById('potencia_total').value) || 0;
+    const cInv = parseFloat(document.getElementById('cap_inv').value) || 1;
     const wPanel = parseInt(document.getElementById('panel_watts').value);
+    const redVal = document.getElementById('red').value;
     
-    // CALCULO AUTOMATICO DE PANELES
-    // Estimamos un 15% de sobredimensionamiento DC/AC común
-    const potenciaDeseadaW = kw * 1150; 
-    const numPaneles = Math.ceil(potenciaDeseadaW / wPanel);
-    const potenciaRealDC = (numPaneles * wPanel) / 1000;
+    // Guardar en cache local
+    localStorage.setItem('vip_empresa', document.getElementById('nombre_empresa').value);
+    localStorage.setItem('vip_resp', document.getElementById('responsable').value);
 
-    // Guardar Proyecto
-    const nuevoProyecto = {
-        id: Date.now(),
-        empresa, cliente,
-        rpu: document.getElementById('rpu').value,
-        kw: kw,
-        wPanel: wPanel,
-        red: document.getElementById('red').value,
-        resp: document.getElementById('responsable').value
-    };
-    proyectos.unshift(nuevoProyecto);
-    if(proyectos.length > 15) proyectos.pop();
-    localStorage.setItem('vip_proyectos', JSON.stringify(proyectos));
-    renderProyectos();
+    // Cálculos Automáticos
+    const numInversores = Math.ceil(pTotal / cInv);
+    // Calculamos paneles: Potencia Total * 1.18 (oversize) dividido entre watts del panel
+    const numPaneles = Math.ceil((pTotal * 1180) / wPanel); 
+    const potRealDC = (numPaneles * wPanel) / 1000;
+    
+    const v_nom = redVal.split('-')[0];
+    const polos = redVal === '127' ? 1 : (redVal === '220-2' ? 2 : 3);
+    const ampTotal = (pTotal * 1000) / (v_nom * (polos === 3 ? 1.732 : 1) * 0.95);
+    
+    // Selección de protección automática
+    const itm = [15,20,30,40,50,60,70,80,100,125,150,200,225,250].find(x => x >= ampTotal * 1.25) || 250;
+    
+    // Selección de calibre (Simplificado para cobre THWN-2)
+    let calibre = "10";
+    if(itm > 30) calibre = "8";
+    if(itm > 50) calibre = "6";
+    if(itm > 65) calibre = "4";
+    if(itm > 85) calibre = "2";
+    if(itm > 115) calibre = "1/0";
 
-    // Cálculos Eléctricos AC
-    const v_real = document.getElementById('red').value.split('-')[0];
-    const polos = document.getElementById('red').value === '127' ? 1 : (document.getElementById('red').value === '220-2' ? 2 : 3);
-    const i_nom = (kw * 1000) / (v_real * (polos === 3 ? 1.732 : 1) * 0.95);
-    const itm = [15,20,30,40,50,60,100].find(x => x >= i_nom * 1.25) || 100;
-    const calibre = itm <= 30 ? "10 AWG" : (itm <= 50 ? "8 AWG" : "6 AWG");
-
-    // Llenado de Plano
-    document.getElementById('plano-empresa-txt').innerText = empresa;
-    document.getElementById('out-cliente').innerText = cliente.toUpperCase();
+    // Llenar el Plano
+    document.getElementById('plano-empresa-txt').innerText = document.getElementById('nombre_empresa').value || "MI EMPRESA";
+    document.getElementById('out-cliente').innerText = document.getElementById('cliente').value.toUpperCase();
     document.getElementById('out-rpu').innerText = document.getElementById('rpu').value;
     document.getElementById('out-fecha').innerText = new Date().toLocaleDateString();
-    document.getElementById('out-inv-kw').innerText = kw;
+    
+    document.getElementById('out-txt-paneles').innerText = `${numPaneles} MÓDULOS DE ${wPanel}W`;
+    document.getElementById('out-num-inv').innerText = numInversores;
+    document.getElementById('out-cap-inv').innerText = cInv;
+    document.getElementById('out-pot-total').innerText = pTotal;
+    
     document.getElementById('out-itm').innerText = itm;
     document.getElementById('out-polos').innerText = polos;
     document.getElementById('out-firma').innerText = document.getElementById('responsable').value.toUpperCase();
-    
-    document.getElementById('t-p-ac').innerText = kw;
-    document.getElementById('t-v-ac').innerText = v_real;
-    document.getElementById('t-i-ac').innerText = i_nom.toFixed(2);
-    
-    document.getElementById('t-p-dc').innerText = potenciaRealDC.toFixed(2) + " kWp";
-    document.getElementById('t-modulos').innerText = `${numPaneles} MÓDULOS DE ${wPanel}W`;
-    document.getElementById('out-txt-paneles').innerText = `${numPaneles} PANELES DE ${wPanel}W`;
 
-    const txtCable = `${polos + 1}-${calibre} THWN-2 + 1-${calibre} T | TUB. PG ${itm > 30 ? '3/4"' : '1/2"'}`;
-    document.getElementById('out-cable-ac').innerHTML = txtCable;
-    document.getElementById('out-cable-med').innerHTML = txtCable;
+    document.getElementById('t-p-dc').innerText = potRealDC.toFixed(2) + " kWp";
+    document.getElementById('t-modulos').innerText = numPaneles + " pzas";
+    document.getElementById('t-p-ac').innerText = pTotal;
+    document.getElementById('t-v-ac').innerText = v_nom;
+    document.getElementById('t-i-ac').innerText = ampTotal.toFixed(2);
+
+    const txtCable = `${polos + 1} - ${calibre} AWG + 1 - ${calibre} T | TUB. PG ${itm > 30 ? '3/4"' : '1/2"'}`;
+    document.getElementById('out-cable-ac').innerText = txtCable;
+    document.getElementById('out-cable-med').innerText = txtCable;
 
     if(logoBase64) document.getElementById('plano-logo-img').src = logoBase64;
 
@@ -287,46 +263,10 @@ function generarVip() {
     setTimeout(ajustarEscala, 300);
 }
 
-function renderProyectos() {
-    const list = document.getElementById('project-list');
-    list.innerHTML = proyectos.length === 0 ? "<small>No hay proyectos.</small>" : "";
-    proyectos.forEach(p => {
-        const div = document.createElement('div');
-        div.className = 'project-item';
-        div.innerHTML = `<span>${p.cliente} (${p.kw}kW)</span> 
-                        <div>
-                            <button class="btn-load" onclick="cargarProyecto(${p.id})">Cargar</button>
-                            <button class="btn-del" onclick="borrarProyecto(${p.id})">X</button>
-                        </div>`;
-        list.appendChild(div);
-    });
-}
-
-function cargarProyecto(id) {
-    const p = proyectos.find(x => x.id === id);
-    document.getElementById('cliente').value = p.cliente;
-    document.getElementById('rpu').value = p.rpu;
-    document.getElementById('kw').value = p.kw;
-    document.getElementById('panel_watts').value = p.wPanel || 550;
-    document.getElementById('red').value = p.red;
-    document.getElementById('responsable').value = p.resp;
-    alert("Proyecto cargado.");
-}
-
-function borrarProyecto(id) {
-    proyectos = proyectos.filter(x => x.id !== id);
-    localStorage.setItem('vip_proyectos', JSON.stringify(proyectos));
-    renderProyectos();
-}
-
 function ajustarEscala() {
     const area = document.getElementById('capture-area');
     const escala = (window.innerWidth - 20) / 1050;
-    if(escala < 1) {
-        area.style.transform = `translateX(-50%) scale(${escala})`;
-    } else {
-        area.style.transform = `translateX(-50%) scale(1)`;
-    }
+    area.style.transform = `translateX(-50%) scale(${escala < 1 ? escala : 1})`;
 }
 
 function regresar() {
