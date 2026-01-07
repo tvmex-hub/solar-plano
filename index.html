@@ -13,11 +13,9 @@
         
         #form-container { padding: 20px; max-width: 600px; margin: 20px auto; background: #111; border-radius: 12px; border: 1px solid #333; box-sizing: border-box; }
         
-        /* Gestión de Logo */
         .logo-upload { border: 2px dashed #444; padding: 15px; text-align: center; margin-bottom: 15px; border-radius: 8px; cursor: pointer; }
         .logo-preview-thumb { max-height: 40px; display: none; margin: 5px auto; }
 
-        /* Historial */
         .history-section { margin-top: 20px; background: #1a1a1a; padding: 15px; border-radius: 8px; border: 1px solid #333; }
         .project-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #333; font-size: 12px; }
         .btn-load { background: var(--primary); color: #000; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
@@ -37,7 +35,6 @@
             transform-origin: top center; box-sizing: border-box;
         }
 
-        /* Ajuste de Logo en Plano */
         .logo-container-plano { height: 50px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 5px; }
         #plano-logo-img { max-height: 100%; max-width: 120px; object-fit: contain; }
 
@@ -80,10 +77,38 @@
 
     <label>Nombre del Cliente</label><input type="text" id="cliente" placeholder="Cliente">
     <label>RPU CFE</label><input type="text" id="rpu" maxlength="12">
-    <label>Ubicación</label><input type="text" id="ubicacion" placeholder="Ciudad, Estado">
     
     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-        <div><label>Potencia kW</label><input type="number" id="kw" value="5"></div>
+        <div>
+            <label>Potencia Inversor (kW)</label>
+            <select id="kw">
+                <option value="1">1 kW</option>
+                <option value="2">2 kW</option>
+                <option value="3">3 kW</option>
+                <option value="5" selected>5 kW</option>
+                <option value="6">6 kW</option>
+                <option value="8">8 kW</option>
+                <option value="10">10 kW</option>
+                <option value="15">15 kW</option>
+                <option value="20">20 kW</option>
+                <option value="30">30 kW</option>
+            </select>
+        </div>
+        <div>
+            <label>Watts por Panel</label>
+            <select id="panel_watts">
+                <option value="450">450W</option>
+                <option value="500">500W</option>
+                <option value="550" selected>550W</option>
+                <option value="580">580W</option>
+                <option value="600">600W</option>
+                <option value="660">660W</option>
+            </select>
+        </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+        <div><label>Ubicación</label><input type="text" id="ubicacion" placeholder="Ciudad, Edo"></div>
         <div><label>Red</label>
             <select id="red">
                 <option value="127">1F-127V</option>
@@ -142,7 +167,7 @@
         <table class="table-specs">
             <tr style="background:#eee;"><th>SISTEMA DC (GENERACIÓN)</th><th>SISTEMA AC (SALIDA)</th><th>NORMATIVA</th></tr>
             <tr>
-                <td>P. TOTAL: <span id="t-p-dc"></span><br>Vmp: 400 VDC | Certificación: UL-1741</td>
+                <td>P. TOTAL DC: <span id="t-p-dc"></span><br>MÓDULOS: <span id="t-modulos"></span><br>Vmp: ~400 VDC</td>
                 <td>P. NOMINAL: <span id="t-p-ac"></span> kW<br>V. NOMINAL: <span id="t-v-ac"></span>V | In: <span id="t-i-ac"></span>A</td>
                 <td>NOM-001-SEDE-2012 Art. 690 / 705<br>ESPECIFICACIÓN CFE G0100-04</td>
             </tr>
@@ -164,7 +189,7 @@
 
     <div class="controls">
         <button class="btn-f" style="background:#444;" onclick="regresar()">EDITAR</button>
-        <button class="btn-f" style="background:#2196F3;" onclick="ajustarEscala()">RE-AJUSTAR</button>
+        <button class="btn-f" style="background:#2196F3;" onclick="window.print()">IMPRIMIR PDF</button>
     </div>
 </div>
 
@@ -202,30 +227,38 @@ function previewLogo(input) {
 function generarVip() {
     const cliente = document.getElementById('cliente').value || "CLIENTE";
     const empresa = document.getElementById('nombre_empresa').value || "MI EMPRESA";
+    const kw = parseFloat(document.getElementById('kw').value);
+    const wPanel = parseInt(document.getElementById('panel_watts').value);
     
-    // Guardar Proyecto en Historial
+    // CALCULO AUTOMATICO DE PANELES
+    // Estimamos un 15% de sobredimensionamiento DC/AC común
+    const potenciaDeseadaW = kw * 1150; 
+    const numPaneles = Math.ceil(potenciaDeseadaW / wPanel);
+    const potenciaRealDC = (numPaneles * wPanel) / 1000;
+
+    // Guardar Proyecto
     const nuevoProyecto = {
         id: Date.now(),
-        empresa: empresa,
-        cliente: cliente,
+        empresa, cliente,
         rpu: document.getElementById('rpu').value,
-        kw: document.getElementById('kw').value,
+        kw: kw,
+        wPanel: wPanel,
         red: document.getElementById('red').value,
         resp: document.getElementById('responsable').value
     };
     proyectos.unshift(nuevoProyecto);
-    if(proyectos.length > 10) proyectos.pop(); // Guardar últimos 10
+    if(proyectos.length > 15) proyectos.pop();
     localStorage.setItem('vip_proyectos', JSON.stringify(proyectos));
     renderProyectos();
 
-    // Llenar Datos Plano
-    const kw = parseFloat(document.getElementById('kw').value) || 0;
+    // Cálculos Eléctricos AC
     const v_real = document.getElementById('red').value.split('-')[0];
     const polos = document.getElementById('red').value === '127' ? 1 : (document.getElementById('red').value === '220-2' ? 2 : 3);
     const i_nom = (kw * 1000) / (v_real * (polos === 3 ? 1.732 : 1) * 0.95);
     const itm = [15,20,30,40,50,60,100].find(x => x >= i_nom * 1.25) || 100;
-    const calibre = itm <= 30 ? "10 AWG" : "8 AWG";
+    const calibre = itm <= 30 ? "10 AWG" : (itm <= 50 ? "8 AWG" : "6 AWG");
 
+    // Llenado de Plano
     document.getElementById('plano-empresa-txt').innerText = empresa;
     document.getElementById('out-cliente').innerText = cliente.toUpperCase();
     document.getElementById('out-rpu').innerText = document.getElementById('rpu').value;
@@ -234,20 +267,20 @@ function generarVip() {
     document.getElementById('out-itm').innerText = itm;
     document.getElementById('out-polos').innerText = polos;
     document.getElementById('out-firma').innerText = document.getElementById('responsable').value.toUpperCase();
+    
     document.getElementById('t-p-ac').innerText = kw;
     document.getElementById('t-v-ac').innerText = v_real;
     document.getElementById('t-i-ac').innerText = i_nom.toFixed(2);
-    document.getElementById('t-p-dc').innerText = (kw * 1.15).toFixed(2) + " kWp";
-    document.getElementById('out-txt-paneles').innerText = "ARREGLO DE PANELES EN SERIE/PARALELO";
+    
+    document.getElementById('t-p-dc').innerText = potenciaRealDC.toFixed(2) + " kWp";
+    document.getElementById('t-modulos').innerText = `${numPaneles} MÓDULOS DE ${wPanel}W`;
+    document.getElementById('out-txt-paneles').innerText = `${numPaneles} PANELES DE ${wPanel}W`;
 
-    const txtCable = `${polos + 1}-${calibre} THWN-2 + 1-${calibre} T | TUB. PG 1/2"`;
+    const txtCable = `${polos + 1}-${calibre} THWN-2 + 1-${calibre} T | TUB. PG ${itm > 30 ? '3/4"' : '1/2"'}`;
     document.getElementById('out-cable-ac').innerHTML = txtCable;
     document.getElementById('out-cable-med').innerHTML = txtCable;
 
-    if(logoBase64) {
-        document.getElementById('plano-logo-img').src = logoBase64;
-        document.getElementById('plano-logo-img').style.display = 'block';
-    }
+    if(logoBase64) document.getElementById('plano-logo-img').src = logoBase64;
 
     document.getElementById('form-container').style.display = 'none';
     document.getElementById('plano-view').style.display = 'block';
@@ -256,7 +289,7 @@ function generarVip() {
 
 function renderProyectos() {
     const list = document.getElementById('project-list');
-    list.innerHTML = proyectos.length === 0 ? "<small>No hay proyectos guardados.</small>" : "";
+    list.innerHTML = proyectos.length === 0 ? "<small>No hay proyectos.</small>" : "";
     proyectos.forEach(p => {
         const div = document.createElement('div');
         div.className = 'project-item';
@@ -274,9 +307,10 @@ function cargarProyecto(id) {
     document.getElementById('cliente').value = p.cliente;
     document.getElementById('rpu').value = p.rpu;
     document.getElementById('kw').value = p.kw;
+    document.getElementById('panel_watts').value = p.wPanel || 550;
     document.getElementById('red').value = p.red;
     document.getElementById('responsable').value = p.resp;
-    alert("Proyecto cargado. Dale clic a Generar para verlo.");
+    alert("Proyecto cargado.");
 }
 
 function borrarProyecto(id) {
@@ -287,15 +321,20 @@ function borrarProyecto(id) {
 
 function ajustarEscala() {
     const area = document.getElementById('capture-area');
-    const escala = (window.innerWidth - 10) / 1050;
-    area.style.transform = `translateX(-50%) scale(${escala})`;
-    document.getElementById('plano-view').style.height = (area.getBoundingClientRect().height + 150) + 'px';
+    const escala = (window.innerWidth - 20) / 1050;
+    if(escala < 1) {
+        area.style.transform = `translateX(-50%) scale(${escala})`;
+    } else {
+        area.style.transform = `translateX(-50%) scale(1)`;
+    }
 }
 
 function regresar() {
     document.getElementById('form-container').style.display = 'block';
     document.getElementById('plano-view').style.display = 'none';
 }
+
+window.onresize = ajustarEscala;
 </script>
 </body>
 </html>
