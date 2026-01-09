@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App de Radio RM (Navidad)</title>
+    <title>CBRadio México - Navidad</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -21,219 +21,128 @@
             background: linear-gradient(135deg, #000000, #121638, #0a1855);
             background-attachment: fixed;
             color: white;
-            /* Evita el "parpadeo" del contenido al cargar */
             visibility: hidden;
+            overflow-x: hidden;
         }
-        
-        /* --- CABECERA FIJA "STICKY" --- */
+
+        /* --- CONTENEDOR LIMITADOR --- */
+        .main-container, .section-header, .hero-title {
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .main-container {
+            padding: 0 20px;
+            margin-bottom: 60px;
+        }
+
+        /* --- CABECERA --- */
         #sticky-header {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            left: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
             position: fixed;
             top: 0;
             width: 100%;
-            z-index: 90;
             height: 70px;
+            z-index: 1000;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            
-            /* Oculto por defecto */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
             opacity: 0;
             transform: translateY(-100%);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            pointer-events: none; 
+            transition: all 0.4s ease;
         }
-        
-        /* Clase que se añade con JS para mostrarlo */
+
         #sticky-header.header-visible {
             opacity: 1;
             transform: translateY(0);
-            pointer-events: auto;
         }
-
 
         .logo-title {
-            font-size: 32px;
-            letter-spacing: 1px;
-            /* Sombra roja */
-            text-shadow: 0 0 10px rgba(230, 0, 35, 0.8);
-            margin: 0;
-            font-size: 28px; 
-        }
-
-        .logo-title span {
-            /* Color rojo */
-            color: #E60023;
+            font-size: clamp(20px, 5vw, 32px);
+            text-shadow: 0 0 15px rgba(230, 0, 35, 0.6);
             font-weight: 700;
         }
 
-        /* --- DESLIZADOR DE BANNER --- */
+        .logo-title span { color: #E60023; }
+
+        /* --- BANNER DINÁMICO --- */
         .banner-slider-container {
             position: relative;
             width: 100%;
-            height: 70vh;  
-            min-height: 500px;
-            overflow: hidden;  
-        }
-        
-
-        .banner-slider-track {
-            display: flex;
-            height: 100%;
-            transition: transform 0.6s ease-in-out, opacity 0.3s ease; 
+            height: 60vh; 
+            min-height: 400px;
+            max-height: 600px;
+            overflow: hidden;
         }
 
         .banner-slide {
-            height: 100%;
+            padding: 4rem 10%;
+            display: flex;
+            align-items: flex-end;
             background-size: cover;
             background-position: center;
-            position: relative;  
-            display: flex;
-            align-items: flex-end;  
-            padding: 1.5rem 2rem;
-            flex-shrink: 0;  
-        }
-        
-        .banner-gradient-overlay {
-            position: absolute;
-            bottom: 0;  
-            left: 0;
-            width: 100%;
-            height: 80%;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.0));
-            z-index: 1;
-        }
-
-        .banner-content-overlay {
-            position: relative;
-            z-index: 2;
-            color: white;
         }
 
         .banner-content-overlay h2 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-            margin-bottom: 0.5rem;
-        }
-
-        .banner-content-overlay p {
-            font-size: 1rem;
-            margin-bottom: 1.2rem;
-            color: rgba(255,255,255,0.9);
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            margin-bottom: 10px;
         }
 
         .banner-slide-button {
             display: inline-block;
-            padding: 10px 24px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
-            text-decoration: none;
-            color: white;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: background 0.3s ease;
-        }
-        .banner-slide-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .banner-dots {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 3;
-            display: flex;
-            gap: 10px;
-            transition: opacity 0.3s ease; 
-        }
-
-        .banner-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.4);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .banner-dot.active {
+            padding: 10px 25px;
             background: #E60023;
-            transform: scale(1.2);
-            box-shadow: 0 0 10px rgba(230, 0, 35, 0.7);
-        }
-        /* --- DESLIZADOR DE BANNER FINAL --- */
-
-
-        /* --- CONTENEDOR PRINCIPAL --- */
-        .main-container {
-            max-width: 100%;
-            width: 100%;
-            margin: 0 auto 60px auto;
-            padding: 10px;
-            position: relative; 
-            z-index: 5; 
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: 0.3s;
         }
 
-        /* --- TÍTULOS DE SECCIÓN --- */
-        .section-header {
-            color: #fff;
-            font-size: 20px;
-            padding: 15px 10px;
-            margin: 20px 0 10px 0;
-            border-left: 5px solid #E60023;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 0 10px 10px 0;
-            display: flex;
-            align-items: center;
+        /* --- GRIDS Y SLIDERS --- */
+        .guide-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
         }
 
-        .section-header i {
-            margin-left: 10px;
-            color: #E60023;
+        .micro-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
         }
 
         .scroll-container {
             display: flex;
             overflow-x: auto;
-            padding: 1rem 0.5rem;
-            gap: 1rem;
-            scrollbar-width: none;
-            -webkit-overflow-scrolling: touch;
-            margin: 15px 0;
+            gap: 20px;
+            padding: 20px 0;
+            scrollbar-width: none; /* Ocultar scroll en Firefox */
         }
 
-        .scroll-container::-webkit-scrollbar {
-            display: none;
+        .scroll-container::-webkit-scrollbar { display: none; }
+
+        /* Ajustes para Pantallas Grandes (PC) */
+        @media (min-width: 768px) {
+            .guide-grid { grid-template-columns: repeat(6, 1fr); }
+            .micro-grid { grid-template-columns: repeat(4, 1fr); }
+            .section-header { border-radius: 10px; }
+            .locutor-card { width: 180px; }
         }
 
-        /* --- CUADRÍCULA PARA "NUESTRA EMISORA" --- */
-        .guide-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);  
-            gap: 1rem; 
-            padding: 1rem 0.5rem;
-            margin: 15px 0;
-        }
-
-
-        /* --- TARJETA DE GUÍA (Para "Nuestra Emisora") --- */
+        /* --- TARJETAS --- */
         .guide-card {
-            aspect-ratio: 1 / 1; 
-            
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
+            aspect-ratio: 1/1;
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(230, 0, 35, 0.2);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            transition: 0.3s;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -241,53 +150,17 @@
             text-align: center;
         }
 
-        .guide-card a {
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            padding: 15px;
-        }
+        .guide-card a { text-decoration: none; color: white; padding: 10px; }
+        .guide-card-icon { font-size: 24px; color: #E60023; margin-bottom: 8px; }
 
-        .guide-card-icon {
-            font-size: 30px; 
-            color: #E60023;
-            margin-bottom: 10px; 
-        }
-
-        .guide-card-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: white;
-        }
-
-        .guide-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 20px rgba(230, 0, 35, 0.3);
-        }
-
-        /* --- SECCIÓN LOCUTORES --- */
         .locutor-card {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            border: 1px solid rgba(230, 0, 35, 0.2);
-            overflow: hidden;
-            transition: all 0.3s ease;
             flex-shrink: 0;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            width: 180px;
+            width: 150px;
             text-align: center;
-        }
-
-        .locutor-card a {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .locutor-card img {
@@ -295,1298 +168,156 @@
             height: 100px;
             border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 15px;
             border: 3px solid #E60023;
-        }
-
-        .locutor-card-nombre {
-            font-size: 1rem;
-            font-weight: 600;
-            color: white;
-            margin-bottom: 5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .locutor-card-programa {
-            font-size: 0.85rem;
-            color: #94a3b8;
-        }
-
-        .locutor-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 20px rgba(230, 0, 35, 0.3);
-        }
-
-        
-        /* --- TARJETA DE CURSOS: Nuevo Estilo Panorámico --- */
-        .curso-card {
-            width: 280px; 
-            height: 300px; 
-            flex-shrink: 0;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            background: #111; 
-        }
-
-        .curso-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .curso-card a {
-            text-decoration: none;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        /* Contenedor de la Imagen: La parte más ancha que larga (todo el "azul") */
-        .curso-card-image-bg {
-            width: 100%;
-            height: 60%; 
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .curso-card-image-bg::after {
-            /* Degradado oscuro opcional sobre la imagen para que el título destaque */
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0) 60%);
-        }
-
-        /* Contenedor de la Información debajo de la imagen */
-        .curso-card-info {
-            padding: 15px;
-            background: #252a51; /* Fondo para la info */
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .curso-card-info h3 {
-            font-size: 1.2rem; 
-            font-weight: 700;
-            margin-bottom: 5px;
-            color: white; 
-        }
-
-        .curso-card-info p {
-            font-size: 0.8rem;
-            color: #b0c4de; 
-            line-height: 1.3;
             margin-bottom: 10px;
         }
 
-        /* Estilos de Botón y Estado */
-        .curso-status-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        .status-tag {
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 5px;
-        }
-
-        .status-disponible {
-            background-color: #10B981; 
-            color: white;
-        }
-
-        .status-no-disponible {
-            background-color: #E60023; 
-            color: white;
-        }
-
-        .ver-mas-btn {
-            padding: 8px 15px;
-            background-color: #E60023; 
-            color: white;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-
-        .ver-mas-btn:hover {
-            background-color: #ff1a40;
-        }
-        /* --- FIN CURSOS MODIFICADOS --- */
-        
-
-        /* --- TARJETA DE PROGRAMACIÓN (Slider Recomendado) --- */
-        .schedule-card {
-            width: 260px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            border: 1px solid rgba(230, 0, 35, 0.2);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
-
-        .schedule-card a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .schedule-card img {
-            width: 100%;
-            height: 130px;
-            object-fit: cover;
-        }
-
-        .schedule-card-content {
-            padding: 15px;
-        }
-
-        .schedule-card-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: white;
-        }
-
-        .schedule-card-desc {
-            font-size: 0.9rem;
-            color: #94a3b8;
-        }
-
-        .schedule-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 20px rgba(230, 0, 35, 0.3);
-        }
-
-        /* --- Etiqueta de Estado (Al Aire, Próximo, etc.) --- */
-        .schedule-card-status {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            padding: 5px 10px;
-            border-radius: 7px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            z-index: 2;
-        }
-
-        .schedule-card-status.aire {
-            background: #10B981;
-            animation: pulse 1.5s infinite;
-        }
-
-        .schedule-card-status.next {
-            background: #E60023;
-        }
-
-        .schedule-card-status.finalizado {
-            background: #6B7280;
-            opacity: 0.8;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
-
-        /* --- SECCIÓN HERO (Estilo VIX) --- */
         .hero-section {
-            position: relative;
+            margin: 40px 0;
+            padding: 40px 20px;
+            border-radius: 20px;
             background-size: cover;
             background-position: center;
-            border-radius: 0; 
-            padding: 2.5rem 0 1.5rem 0;  
-            margin: 20px -10px; 
-            overflow: hidden;  
-            border: none; 
-            border-top: 1px solid rgba(230, 0, 35, 0.2);
-            border-bottom: 1px solid rgba(230, 0, 35, 0.2);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .hero-title {
-            font-size: 2.2rem;  
-            font-weight: 800;
-            color: white;
-            margin-bottom: 1rem;
-            padding-left: 10px; 
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-            position: relative;  
-            z-index: 2;
-        }
-        
-        .hero-section .scroll-container {
-            margin: 0;  
-            padding: 0.5rem 10px; 
-            position: relative;
-            z-index: 2;
-        }
-
-        /* --- TARJETA TIPO CHART (Estilo VIX) --- */
-        .chart-card {
-            width: 250px;  
-            height: 140px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 12px;
-            border: 1px solid rgba(230, 0, 35, 0.2);
-            overflow: hidden;
-            transition: all 0.3s ease;
-            position: relative;
-            flex-shrink: 0;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        .section-header {
+            background: linear-gradient(90deg, rgba(230,0,35,0.2), transparent);
+            border-left: 6px solid #E60023;
+            padding: 12px 20px;
+            margin-top: 40px;
+            font-size: 1.4rem;
             display: flex;
-            justify-content: flex-end;
-            flex-direction: column;
-        }
-
-        .chart-card a {
-            text-decoration: none;
-            color: white;
-            display: block;
-            width: 100%;
-            height: 100%;
-            position: relative;
-            padding: 12px;
-            display: flex;
-            align-items: flex-end;
-        }
-        
-        .chart-card a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 70%;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
-            z-index: 1;
-        }
-
-        .chart-card-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: white;
-            position: relative;
-            z-index: 2;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-        }
-
-        .chart-card:hover {
-            transform: translateY(-8px) scale(1.03);
-            box-shadow: 0 10px 20px rgba(230, 0, 35, 0.3);
-        }
-
-        
-        /* --- BANNER PROMOCIONAL ANCHO COMPLETO --- */
-        .full-width-promo {
-            display: block;
-            /* Rompe el padding del main-container (10px) */
-            margin: 25px -10px; 
-            height: auto;
-            overflow: hidden; 
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            border-radius: 0; 
-            border-top: 1px solid rgba(230, 0, 35, 0.2);
-            border-bottom: 1px solid rgba(230, 0, 35, 0.2);
+            align-items: center;
+            gap: 10px;
         }
 
         .full-width-promo img {
-            display: block;
             width: 100%;
-            height: auto;
-            transition: transform 0.4s ease;
-        }
-        
-        .full-width-promo:hover img {
-            transform: scale(1.03); 
-        }
-
-        /* --- LISTA DE PROGRAMACIÓN SEMANAL --- */
-        .settings-list {
-            margin: 20px 0;
-        }
-        
-        .settings-list a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .settings-item {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(230, 0, 35, 0.2);
-            padding: 20px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 500;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.3s ease;
-        }
-        
-        .settings-item .dia {
-            font-weight: 700;
-            color: #FF6B6B;
-            flex-basis: 100px;
-            flex-shrink: 0;
-        }
-        
-        .settings-item .show {
-            color: #fff;
-            flex-grow: 1;
-            text-align: left;
-            margin-left: 15px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .settings-item i {
-            color: #94a3b8;
-            margin-left: 15px;
-            flex-shrink: 0;
-        }
-
-        .settings-item:active,
-        .settings-list a:active .settings-item {
-            background: rgba(230, 0, 35, 0.2);
-        }
-
-        /* --- TARJETAS TOP CONTENIDO --- */
-        .top-content-section {
+            border-radius: 15px;
             margin: 30px 0;
-        }
-        
-        .top-card {
-            width: 160px;
-            height: 240px;
-            background-color: rgba(0,0,0,0.4);
-            background-size: cover;
-            background-position: center;
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-            flex-shrink: 0;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            border: 1px solid rgba(230, 0, 35, 0.1);
-        }
-
-        .top-card:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 12px 25px rgba(230, 0, 35, 0.4);
-            z-index: 10;
-        }
-
-        .top-card a {
             display: block;
-            width: 100%;
-            height: 100%;
-            text-decoration: none;
-            color: white;
-            position: relative;
         }
 
-        .top-card a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 50%;
-            background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
-        }
-
-        .top-card-rank {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #E60023;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            z-index: 2;
-        }
-
-        /* --- EFECTOS NAVIDEÑOS --- */
-        .snow-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-            overflow: hidden;
-        }
+        /* --- NIEVE --- */
         .snowflake {
-            position: absolute;
+            position: fixed;
             top: -10%;
             color: white;
-            font-family: Arial, sans-serif;
+            z-index: 9999;
+            pointer-events: none;
             animation: fall linear infinite;
         }
+
         @keyframes fall {
-            from { transform: translateY(0) rotate(0deg); }
-            to { transform: translateY(105vh) rotate(360deg); }
+            to { transform: translateY(110vh) rotate(360deg); }
         }
-        .snowflake:nth-child(1) { left: 10%; font-size: 20px; animation-duration: 10s; animation-delay: 0s; opacity: 0.8; }
-        .snowflake:nth-child(2) { left: 20%; font-size: 12px; animation-duration: 12s; animation-delay: 1s; opacity: 0.6; }
-        .snowflake:nth-child(3) { left: 30%; font-size: 18px; animation-duration: 8s; animation-delay: 2s; opacity: 0.7; }
-        .snowflake:nth-child(4) { left: 40%; font-size: 14px; animation-duration: 15s; animation-delay: 0s; opacity: 0.5; }
-        .snowflake:nth-child(5) { left: 50%; font-size: 22px; animation-duration: 10s; animation-delay: 3s; opacity: 0.9; }
-        .snowflake:nth-child(6) { left: 60%; font-size: 16px; animation-duration: 11s; animation-delay: 1s; opacity: 0.7; }
-        .snowflake:nth-child(7) { left: 70%; font-size: 12px; animation-duration: 13s; animation-delay: 4s; opacity: 0.6; }
-        .snowflake:nth-child(8) { left: 80%; font-size: 20px; animation-duration: 9s; animation-delay: 2s; opacity: 0.8; }
-        .snowflake:nth-child(9) { left: 90%; font-size: 15px; animation-duration: 14s; animation-delay: 3s; opacity: 0.5; }
-        .snowflake:nth-child(10) { left: 95%; font-size: 18px; animation-duration: 10s; animation-delay: 1s; opacity: 0.7; }
-        /* --- ESTILO GRID MICROS (TIPO VIX) --- */
-        .micro-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);  
-            gap: 1rem; 
-            padding: 0.5rem; 
-            margin: 15px 0;
-        }
-
-        .micro-card {
-            display: block; 
-            border-radius: 12px; 
-            overflow: hidden; 
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            aspect-ratio: 2 / 3;  
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-        }
-
-        .micro-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; 
-            display: block; 
-        }
-
-        .micro-card:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 10px 20px rgba(230, 0, 35, 0.3); 
-        }
-        /* --- FIN (NUEVO) --- */
     </style>
 </head>
 
 <body>
 
-    <div class="snow-container">
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">❅</div>
-        <div class="snowflake">❆</div>
-        <div class="snowflake">❅</div>
-    </div>
+    <div class="snow-container" id="snow">
+        </div>
     
     <div id="sticky-header">
         <h1 class="logo-title"><span>CBRADIO</span>MÉXICO</h1>
     </div>
 
     <div class="banner-slider-container" id="main-banner">
-        <div class="banner-slider-track">
-            </div>
-        <div class="banner-dots">
-            </div>
+        <div class="banner-slider-track"></div>
+        <div class="banner-dots"></div>
     </div>
     
     <div class="main-container">
 
         <h2 class="section-header">Nuestra Emisora <i class="fa-solid fa-broadcast-tower"></i></h2>
         
-        <div class="guide-grid" id="herramientas-container">
-            <div class="guide-card">
-                <a href="go:sobre">
-                    <div class="guide-card-icon"><i class="fa-solid fa-info-circle"></i></div>
-                    <h4 class="guide-card-title">Sobre Nosotros</h4>
-                </a>
-            </div>
-            <div class="guide-card">
-                <a href="go:programaci">
-                    <div class="guide-card-icon"><i class="fa-solid fa-calendar-alt"></i></div>
-                    <h4 class="guide-card-title">Programación</h4>
-                </a>
-            </div>
-            <div class="guide-card">
-                <a href="go:contact">
-                    <div class="guide-card-icon"><i class="fa-solid fa-phone-alt"></i></div>
-                    <h4 class="guide-card-title">Contacto</h4>
-                </a>
-            </div>
-            <div class="guide-card">
-                <a href="go:eventos">
-                    <div class="guide-card-icon"><i class="fa-solid fa-star"></i></div>
-                    <h4 class="guide-card-title">Eventos</h4>
-                </a>
-            </div>
-            <div class="guide-card">
-                <a href="go:podcast">
-                    <div class="guide-card-icon"><i class="fa-solid fa-podcast"></i></div>
-                    <h4 class="guide-card-title">Podcast</h4>
-                </a>
-            </div>
-            <div class="guide-card">
-                <a href="go:reels">
-                    <div class="guide-card-icon"><i class="fa-regular fa-circle-play"></i></div>
-                    <h4 class="guide-card-title">reels</h4>
-                </a>
-            </div>
+        <div class="guide-grid">
+            <div class="guide-card"><a href="go:sobre"><i class="fa-solid fa-info-circle guide-card-icon"></i><h4 class="guide-card-title">Sobre Nosotros</h4></a></div>
+            <div class="guide-card"><a href="go:programaci"><i class="fa-solid fa-calendar-alt guide-card-icon"></i><h4 class="guide-card-title">Programación</h4></a></div>
+            <div class="guide-card"><a href="go:contact"><i class="fa-solid fa-phone-alt guide-card-icon"></i><h4 class="guide-card-title">Contacto</h4></a></div>
+            <div class="guide-card"><a href="go:eventos"><i class="fa-solid fa-star guide-card-icon"></i><h4 class="guide-card-title">Eventos</h4></a></div>
+            <div class="guide-card"><a href="go:podcast"><i class="fa-solid fa-podcast guide-card-icon"></i><h4 class="guide-card-title">Podcast</h4></a></div>
+            <div class="guide-card"><a href="go:reels"><i class="fa-regular fa-circle-play guide-card-icon"></i><h4 class="guide-card-title">Reels</h4></a></div>
         </div>
-
 
         <h2 class="section-header">Locutores <i class="fa-solid fa-users"></i></h2>
-        <div class="scroll-container" id="locutores-container">
-
-            <div class="locutor-card">
-                <a href="go:isabel">
-                    <img src="https://i.postimg.cc/ZnLQBZ3F/Whats-App-Image-2025-11-05-at-6-40-00-PM.jpg" alt="Foto Isabel Pink">
-                    <h4 class="locutor-card-nombre">Isabel Pink</h4>
-                    <p class="locutor-card-programa">Vamos A Platicar</p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:cory">
-                    <img src="https://i.postimg.cc/WpnFpKK9/Whats-App-Image-2025-11-05-at-6-53-10-PM.jpg" alt="Foto Locutor 2">
-                    <h4 class="locutor-card-nombre">Cory Villicaña </h4>
-                    <p class="locutor-card-programa">Vamos A Platicar</p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:marina">
-                    <img src="https://i.postimg.cc/8kJv4w0V/Whats-App-Image-2025-11-05-at-6-40-00-PM-1.jpg" alt="Foto Locutor 3">
-                    <h4 class="locutor-card-nombre">Marina Michel</h4>
-                    <p class="locutor-card-programa">Vamos A Platicar</p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:cris">
-                    <img src="https://i.postimg.cc/qRFxQx6q/Whats-App-Image-2025-11-05-at-6-40-00-PM-3.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">Christopher Albarrán</h4>
-                    <p class="locutor-card-programa">Vamos A Platicar</p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:eduardo">
-                    <img src="https://i.postimg.cc/Y027c3MQ/Cb-9.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">Eduardo Vargas Montenegro</h4>
-                    <p class="locutor-card-programa">vamos a platicar</p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:angelica">
-                    <img src="https://i.postimg.cc/LX25XjmP/Cb-10.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">angie molina</h4>
-                    <p class="locutor-card-programa">vamos a platicar </p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:orlando12">
-                    <img src="https://i.postimg.cc/bwYjsLnj/Cb-11.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">Orlando Latorre (Orlandisco)</h4>
-                    <p class="locutor-card-programa">vamos a platicar </p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:jm">
-                    <img src="https://i.postimg.cc/BvTNQYyD/Cb.jpg" alt="Anunciador de fotos 4">
-                    <h4 class="locutor-card-nombre">juan carlos mera</h4>
-                    <p class="locutor-card-programa">El JM De Ecatepec</p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:gael">
-                    <img src="https://i.postimg.cc/W4sfVRSP/Cb-20.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">Gahel Cadenas </h4>
-                    <p class="locutor-card-programa">Entre notas y mentes y Tiempo extra </p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:daniela">
-                    <img src="https://i.postimg.cc/mD0n6XPJ/Cb-1.jpg" alt="Anunciador de fotos 4">
-                    <h4 class="locutor-card-nombre">Daniela Hegue</h4>
-                    <p class="locutor-card-programa">Moviendo Vidas</p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:dimitri">
-                    <img src="https://i.postimg.cc/GpZ0ZhVL/Cb-2.jpg" alt="Foto del altavoz 4">
-                    <h4 class="locutor-card-nombre">Dimitri Benavides</h4>
-                    <p class="locutor-card-programa">Cronicas Del Mayor</p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:laloc">
-                    <img src="https://i.postimg.cc/qM59v0pt/Cb-12.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">Lalo Cadenas</h4>
-                    <p class="locutor-card-programa">Amor En eL Aire </p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:daniel">
-                    <img src="https://i.postimg.cc/z3ZKxVnj/Cb-13.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">Daniel Enriquez</h4>
-                    <p class="locutor-card-programa">Dos Para Las Ocho</p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:ricci">
-                    <img src="https://i.postimg.cc/jSCny602/Cb-14.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">Christian Ricci</h4>
-                    <p class="locutor-card-programa">Dos Para Las Ocho</p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:analau">
-                    <img src="https://i.postimg.cc/j2P0pF7L/Cb-15.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">Ana Laura</h4>
-                    <p class="locutor-card-programa">Dos Para Las Ocho</p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:dania">
-                    <img src="https://i.postimg.cc/vHY0FK95/Cb-16.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">Dania Jiménez </h4>
-                    <p class="locutor-card-programa">El rinconcito de la Miss</p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:josue">
-                    <img src="https://i.postimg.cc/3JPy4YDq/Cb-17.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">josue osorio </h4>
-                    <p class="locutor-card-programa">luchonestime y entierra tu lana </p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:alan">
-                    <img src="https://i.postimg.cc/CKWYJxSc/Cb-18.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">Alan Sanchez </h4>
-                    <p class="locutor-card-programa">Microfono MX</p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:fase">
-                    <img src="https://i.postimg.cc/g2x2K53J/Cb-19.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">Fasetr3</h4>
-                    <p class="locutor-card-programa">Historias Malditas</p>
-                </a>
-            </div>
-        
-            <div class="locutor-card">
-                <a href="go:ade">
-                    <img src="https://i.postimg.cc/cJVhJVB3/Cb-21.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">Ade Barron </h4>
-                    <p class="locutor-card-programa">cosas de señoras y el cafe de la mañana </p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:biby">
-                    <img src="https://i.postimg.cc/3N6xMFTN/Cb-22.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">Biby Pink </h4>
-                    <p class="locutor-card-programa">toxic Pink </p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:frank">
-                    <img src="https://i.postimg.cc/X7knkWrH/Cb-23.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">franky monster </h4>
-                    <p class="locutor-card-programa">el show de frankymonster </p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:mocty">
-                    <img src="https://i.postimg.cc/9MQLKGbk/Cb-24.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">Angel Moctezuma</h4>
-                    <p class="locutor-card-programa">sin condon</p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:VITAMINA">
-                    <img src="https://i.postimg.cc/ZnrjyV5C/Cb-25.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">José Martínez Landeros</h4>
-                    <p class="locutor-card-programa">VITAMINA M</p>
-                </a>
-            </div>
-            <div class="locutor-card">
-                <a href="go:MILTON">
-                    <img src="https://i.postimg.cc/zG3WsxYV/Cb-26.jpg" alt="Foto Locutor 4">
-                    <h4 class="locutor-card-nombre">Milton de la Cruz</h4>
-                    <p class="locutor-card-programa">VA DE RETRO </p>
-                </a>
-            </div>
-        
+        <div class="scroll-container">
+            <div class="locutor-card"><a href="go:isabel"><img src="https://i.postimg.cc/ZnLQBZ3F/Whats-App-Image-2025-11-05-at-6-40-00-PM.jpg"><h4>Isabel Pink</h4></a></div>
+            <div class="locutor-card"><a href="go:cory"><img src="https://i.postimg.cc/WpnFpKK9/Whats-App-Image-2025-11-05-at-6-53-10-PM.jpg"><h4>Cory Villicaña</h4></a></div>
+            <div class="locutor-card"><a href="go:marina"><img src="https://i.postimg.cc/8kJv4w0V/Whats-App-Image-2025-11-05-at-6-40-00-PM-1.jpg"><h4>Marina Michel</h4></a></div>
+            <div class="locutor-card"><a href="go:cris"><img src="https://i.postimg.cc/qRFxQx6q/Whats-App-Image-2025-11-05-at-6-40-00-PM-3.jpg"><h4>Christopher</h4></a></div>
             </div>
 
-        
+        <h2 class="section-header" id="daily-schedule-title">Programación <i class="fa-solid fa-sync fa-spin"></i></h2>
+        <div class="scroll-container" id="recomendacion-container"></div>
 
-        <a href="go:f1" class="full-width-promo">
-            <img src="https://i.postimg.cc/XqFqC1Rh/Sin-titulo-Portada-para-Facebook-1.png" alt="Promoción Especial">
-        </a>
-        <h2 class="section-header" id="daily-schedule-title">Cargando Programación... <i class="fa-solid fa-sync fa-spin"></i></h2>
-        <div class="scroll-container" id="recomendacion-container">
-            </div>
-
-        <div class="hero-section" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('https://i.postimg.cc/xTqnXCH3/Cb-3.jpg');">
-            
-            <h2 class="hero-title">Nueva entrevista</h2>
-            
-            <div class="scroll-container" id="charts-container">
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/15phnqX8/Cb-4.jpg');">
-                    <a href="go:andrea">
-                        <h4 class="chart-card-title">Andrea Zuamaya</h4>
-                    </a>
-                </div>
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/7YR5Cw8P/Cb-5.jpg');">
-                    <a href="go:flex">
-                        <h4 class="chart-card-title">FLEX G </h4>
-                    </a>
-                </div>
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/zXQyL8Zz/Cb-6.jpg');">
-                    <a href="go:orlando">
-                        <h4 class="chart-card-title">Orlando Gonzales</h4>
-                    </a>
-                </div>
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/9FkD4C5c/Cb-7.jpg');">
-                    <a href="go:atena">
-                        <h4 class="chart-card-title">Atena</h4>
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <a href="go:pre" class="full-width-promo">
-            <img src="https://i.postimg.cc/TPcZL1vN/Copia-de-noticia-(6).jpg" alt="Promoción Especial">
-        </a>
-        
-        
-        <div class="top-content-section">
-            <h2 class="section-header">Contenido del Día <i class="fa-solid fa-trophy"></i></h2>
-            <div class="scroll-container" id="top-content-container">
-
-                <div class="top-card" style="background-image: url('https://i.postimg.cc/9Qnkk4gv/Copia_de_Miniatura_de_Youtube_podcast_finanzas_profesional_negro_verde_(Video_para_dispositivos_móvi.jpg');">
-                    <a href="go:noti">
-                        <span class="top-card-rank">#1</span>
-                    </a>
-                </div>
-                <div class="top-card" style="background-image: url('https://i.postimg.cc/jS59v6cG/Copia_de_Miniatura_de_Youtube_podcast_finanzas_profesional_negro_verde_(Video_para_dispositivos_móvi.jpg');">
-                    <a href="go:podcast">
-                        <span class="top-card-rank">#2</span>
-                    </a>
-                </div>
-                <div class="top-card" style="background-image: url('https://i.postimg.cc/rwPHHdZ3/Copia_de_Miniatura_de_Youtube_podcast_finanzas_profesional_negro_verde_(Video_para_dispositivos_móvi.jpg');">
-                    <a href="go:reels">
-                        <span class="top-card-rank">#3</span>
-                    </a>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="hero-section" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('https://i.postimg.cc/5tsd6ywW/Copia_de_noticia_(8).jpg');">
-            
-            <h2 class="hero-title">nuevos programas</h2>
-            
-            <div class="scroll-container" id="charts-container">
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/N0dq5F1s/Copia_de_noticia_(7).jpg');">
-                    <a href="go:hora">
-                        <h4 class="chart-card-title">la hora nacional</h4>
-                    </a>
-                </div>
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/6pz3rdRG/Copia-de-noticia-(9).jpg');">
-                    <a href="go:crime">
-                        <h4 class="chart-card-title">Bitacora del crimen</h4>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <h2 class="section-header">Cursos de la Radio <i class="fa-solid fa-graduation-cap"></i></h2>
-        <div class="scroll-container" id="cursos-container">
-
-            <div class="curso-card">
-                <a href="go:curso">
-                    <div class="curso-card-image-bg" 
-                        style="background-image: url('https://i.postimg.cc/kgfN5M1c/Miniatura-para-You-Tube-Podcast-Moderno-Morado-y-Negro.png');">
-                    </div>
-                    
-                    <div class="curso-card-info">
-                        <div>
-                            <h3>¡Conviértete en Locutor!</h3>
-                            <p>Aprende las técnicas de modulación y dicción, y domina el arte del guionismo radiofónico.</p>
-                        </div>
-                        
-                        <div class="curso-status-row">
-                            <span class="status-tag status-no-disponible">❌ NO DISPONIBLE</span>
-                            <span class="ver-mas-btn">Ver Más</span> 
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="curso-card">
-                <a href="go:josue21">
-                    <div class="curso-card-image-bg" 
-                        style="background-image: url('https://i.postimg.cc/TYhfsCzs/Miniatura-para-You-Tube-Podcast-Moderno-Morado-y-Negro-(1).png');">
-                    </div>
-                    
-                    <div class="curso-card-info">
-                        <div>
-                            <h3>El Mundo de las Ventas</h3>
-                            <p>Descubre estrategias de ventas efectivas y consejos financieros para "enterrar tu lana".</p>
-                        </div>
-                        
-                        <div class="curso-status-row">
-                            <span class="status-tag status-disponible">✅ DISPONIBLE</span>
-                            <span class="ver-mas-btn">Ver Más</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="curso-card">
-                <a href="go:curso">
-                    <div class="curso-card-image-bg" 
-                        style="background-image: url('https://i.postimg.cc/MHqbTcS6/5017486073885559557.jpg');">
-                    </div>
-                    
-                    <div class="curso-card-info">
-                        <div>
-                            <h3>Gramatica del Ingles Avanzada</h3>
-                            <p>Descubre lo que es la Gramatica de ingles.. disponible en enero.</p>
-                        </div>
-                        
-                        <div class="curso-status-row">
-                            <span class="status-tag status-no-disponible">❌ NO DISPONIBLE</span>
-                            <span class="ver-mas-btn">Ver Más</span> 
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="curso-card">
-                <a href="go:curso">
-                    <div class="curso-card-image-bg" 
-                        style="background-image: url('https://i.postimg.cc/NMSY8dTd/4974586063632403369.jpg');">
-                    </div>
-
-             <div class="curso-card-info">
-                        <div>
-                            <h3>aprende a dibujar</h3>
-                            <p>aprende a dibujar .. disponible en enero.</p>
-                        </div>
-                        
-                        <div class="curso-status-row">
-                            <span class="status-tag status-no-disponible">❌ NO DISPONIBLE</span>
-                            <span class="ver-mas-btn">Ver Más</span> 
-                        </div>
-                    </div>
-                </a>
-            </div>
-            
-        </div>
-        <a href="go:flexgg" class="full-width-promo">
-            <img src="https://i.postimg.cc/jSwcYBL6/Una-produccion-de.png" alt="Promoción Especial">
-        </a>
-        <h2 class="section-header">proximamente en cbradiomexico <i class="fa-solid fa-clapperboard"></i></h2>
-
+        <h2 class="section-header">Próximamente <i class="fa-solid fa-clapperboard"></i></h2>
         <div class="micro-grid">
-
-            <a href="go:alix" class="micro-card">
-                <img src="https://i.postimg.cc/C5dLJH6Z/noticia_(5).jpg" alt="Los Casi Algo">
-            </a>
-
-            <a href="go:cri" class="micro-card">
-                <img src="https://i.postimg.cc/BbtQNcwL/noticia_(6).jpg" alt="Mi Herencia Huele a Pobre">
-            </a>
-
-            <a href="go:micro3" class="micro-card">
-                <img src="https://i.postimg.cc/SRjNV7tR/noticia_(7).jpg" alt="Pedí una Esposa a Domicilio">
-            </a>
-
-            <a href="go:andrea12" class="micro-card">
-                <img src="https://i.postimg.cc/K8zz502p/noticia-(8).jpg" alt="Casi 40 en la Uni">
-            </a>
-            
-            </div>
-
-        <div class="top-content-section">
-            <h2 class="section-header">artistas en cb radio mexico <i class="fa-solid fa-trophy"></i></h2>
-            <div class="scroll-container" id="top-content-container">
-
-                <div class="top-card" style="background-image: url('https://i.postimg.cc/rFjGb8mV/noticia-(2).png');">
-                    <a href="go:flee">
-                        <span class="top-card-rank">flexg</span>
-                    </a>
-                </div>
-                
+            <a href="go:alix" class="micro-card"><img src="https://i.postimg.cc/C5dLJH6Z/noticia_(5).jpg" style="width:100%; border-radius:15px;"></a>
+            <a href="go:cri" class="micro-card"><img src="https://i.postimg.cc/BbtQNcwL/noticia_(6).jpg" style="width:100%; border-radius:15px;"></a>
+            <a href="go:micro3" class="micro-card"><img src="https://i.postimg.cc/SRjNV7tR/noticia_(7).jpg" style="width:100%; border-radius:15px;"></a>
+            <a href="go:andrea12" class="micro-card"><img src="https://i.postimg.cc/K8zz502p/noticia-(8).jpg" style="width:100%; border-radius:15px;"></a>
         </div>
 
-        <a href="go:store" class="full-width-promo">
-            <img src="https://i.postimg.cc/mrKgnPJt/Copia-de-noticia-(4).jpg" alt="Promoción Especial">
-        </a>
-        
-        <h2 class="section-header">Mas Contenido <i class="fa-solid fa-calendar-week"></i></h2>
-
-        <div class="settings-list">
-            
-            <a href="go:store" class="settings-link">
-                <div class="settings-item">
-                    <span class="dia">patrocinadores</span>
-                    <span class="show">Ver patrocinadores</span>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </div>
-            </a>
-        </div>
-
-        <a href="go:anel" class="full-width-promo">
-            <img src="https://i.postimg.cc/BbDPg1cj/Cb-8.jpg" alt="Promoción Especial">
-        </a>
-
-        <div class="hero-section" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('https://i.postimg.cc/jSdVCQF8/Copia-de-Rinnova-Groups-Video-1.jpg');">
-            
-            <h2 class="hero-title">Congreso Rinnova Groups</h2>
-            
-            <div class="scroll-container" id="charts-container-2"> 
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/jSdVCQF8/Copia-de-Rinnova-Groups-Video-1.jpg');">
-                    <a href="go:c1">
-                        <h4 class="chart-card-title">Congreso Rinnova Groups</h4>
-                    </a>
-                </div>
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/KvKvhPvK/11.jpg');">
-                    <a href="go:c2">
-                        <h4 class="chart-card-title">Isabel Cabello</h4>
-                    </a>
-                </div>
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/HL1L2rmr/3.jpg');">
-                    <a href="go:c3">
-                        <h4 class="chart-card-title">dolly ruiz</h4>
-                    </a>
-                </div>
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/qMggMfQv/2.jpg');">
-                    <a href="go:c4">
-                        <h4 class="chart-card-title">Jeanine Lupu</h4>
-                    </a>
-                </div>
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/4NMyY8Fb/1.jpg');">
-                    <a href="go:c5">
-                        <h4 class="chart-card-title">Allamey Sanz</h4>
-                    </a>
-                </div>
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/7hhP673W/6.jpg');">
-                    <a href="go:c6">
-                        <h4 class="chart-card-title">Ruth Fuente</h4>
-                    </a>
-                </div>
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/m20ZLPtm/12.jpg');">
-                    <a href="go:c7">
-                        <h4 class="chart-card-title">Lilly Rodriguez</h4>
-                    </a>
-                </div>
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/fLV9DHLB/Blue-Green-Modern-Online-Course-Video-1.jpg');">
-                    <a href="go:c8">
-                        <h4 class="chart-card-title">Jesus Villamizar</h4>
-                    </a>
-                </div>
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/7hqmB8Xf/Blue-Green-Modern-Online-Course-Video.jpg');">
-                    <a href="go:c9">
-                        <h4 class="chart-card-title">Eduardo Vargas Montenegro</h4>
-                    </a>
-                </div>
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/g0y2BGcN/5.jpg');">
-                    <a href="go:c10">
-                        <h4 class="chart-card-title">Angie Barrios</h4>
-                    </a>
-                </div>
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/RhYSnFGV/9.jpg');">
-                    <a href="go:c11">
-                        <h4 class="chart-card-title">Karina Andrea Provini</h4>
-                    </a>
-                </div>
-                <div class="chart-card" style="background-image: url('https://i.postimg.cc/wv0TgFmN/7.jpg');">
-                    <a href="go:c12">
-                        <h4 class="chart-card-title">Jen Frias</h4>
-                    </a>
-                </div>
-            </div>
-        </div>
     </div> 
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            
+            // Nieve Dinámica
+            const snowCont = document.getElementById('snow');
+            for(let i=0; i<15; i++) {
+                let div = document.createElement('div');
+                div.className = 'snowflake';
+                div.innerHTML = i % 2 === 0 ? '❅' : '❆';
+                div.style.left = Math.random() * 100 + 'vw';
+                div.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                div.style.opacity = Math.random();
+                snowCont.appendChild(div);
+            }
+
+            // Datos de horario (abreviados para el ejemplo)
             const horario = [
-                // -- Lunes (Día 1) --
                 { dia: 1, start: 9, end: 12, title: "Vamos a platicar", locutor: "Isabel Pink", img: "https://i.postimg.cc/7YrxjhkL/CB-Radio-Studio-650-x-1920-px-1950-x-620-px-Video-para-dispositivos-moviles.jpg", link: "go:isabel" },
-                { dia: 1, start: 19, end: 20, title: "El JM de Ecatepec", locutor: "EL JM DE ECATAPEC", img: "https://i.postimg.cc/cCZbMVp7/6.jpg", link: "go:jm" },
-                { dia: 1, start: 20, end: 22, title: "Tiempo Extra", locutor: "Gael cadenas ", img: "https://i.postimg.cc/XJ6H4R72/5.jpg", link: "go:gael" },
-
-                // -- Martes (Día 2) --
-                { dia: 2, start: 9, end: 10, title: "Moviendo Vidas", locutor: "Daniela Hegue", img: "https://i.postimg.cc/XYZQFjrH/4.jpg", link: "go:daniela" },
-                { dia: 2, start: 10, end: 11, title: "Crónicas del Mayor", locutor: "dimitri", img: "https://i.postimg.cc/CKk7PcHG/9.jpg", link: "go:dimitri" },
-                { dia: 2, start: 21, end: 23, title: "amor en el aire ", locutor: "Lalo cadenas", img: "https://i.postimg.cc/qMQ7PKxQ/7.jpg", link: "go:laloc" },
-
-                
-                // -- Miércoles (Día 3) --
-                { dia: 3, start: 8, end: 11, title: "Dos Para Las Ocho", locutor: "daniel enriquez", img: "https://i.postimg.cc/25sBzMP3/Whats-App-Image-2025-11-30-at-12-10-23-PM.jpg", link: "go:daniel" },
-                { dia: 3, start: 16, end: 17, title: "el rinconcito de la miss", locutor: "Dania jimenez", img: "https://i.postimg.cc/W3fH1LZm/13.jpg", link: "go:dania" },
-                { dia: 3, start: 19, end: 20, title: "luchonestime",locutor: "josue osorio", img: "https://i.postimg.cc/FzdnfWbD/18.jpg", link: "go:josue" },
-                { dia: 3, start: 20, end: 21, title: "microfonomx",locutor: "Alan", img: "https://i.postimg.cc/rmYPwX49/14.jpg", link: "go:alan" },
-                { dia: 3, start: 21, end: 22, title: "historias malditas",locutor: "fase 3", img: "https://i.postimg.cc/sxQ0B6PL/20.jpg", link: "go:fase" },
-
-                // -- jueves (Día 4) --
-                { dia: 4, start: 9, end: 11, title: "entrenotas y mentes", locutor: "Gael cadenas", img: "https://i.postimg.cc/Pf7HYMKr/21.jpg", link: "go:gael" },
-                { dia: 4, start: 17, end: 19, title: "cosa de señoras", locutor: "Ade Barron", img: "https://i.postimg.cc/7hzqfCFg/28.jpg", link: "go:ade" },
-                { dia: 4, start: 20, end: 22, title: "historias malditas ", locutor: "fase 3", img: "https://i.postimg.cc/Kz62SG1y/19.jpg", link: "go:fase" },
-
-                // -- viernes (Día 5) --
-                { dia: 5, start: 8, end: 11, title: "2 para las 8", locutor: "daniel enriquez", img: "https://i.postimg.cc/25sBzMP3/Whats-App-Image-2025-11-30-at-12-10-23-PM.jpg", link: "go:daniel" },
-                { dia: 5, start: 11, end: 12, title: "TOXIC PINK ", locutor: "biby pink", img: "https://i.postimg.cc/HnwFqQG9/22.jpg", link: "go:biby" },
-                { dia: 5, start: 19, end: 20, title: " ENTIERRA TU LANA ", locutor: " JOSUE OSORIO", img: "https://i.postimg.cc/pLG3MW7M/17.jpg", link: "go:josue" },
-                { dia: 5, start: 20, end: 21, title: "microfonomx",locutor: "ALAN", img: "https://i.postimg.cc/rmYPwX49/14.jpg", link: "go:alan" },
-                { dia: 5, start: 22, end: 24, title: " SIN CONDON ", locutor: "Locutor MOCTY", img: "https://i.postimg.cc/YS5pc5Y6/25.jpg", link: "go:Mocty" },
-                
-                // -- SABADO (Día 6) --
-                { dia: 6, start: 12, end: 13, title: "el cafe de la mañana ", locutor: "Ade Barron", img: "https://i.postimg.cc/cC0F82jR/27.jpg", link: "go:ade" },
-                { dia: 6, start: 13, end: 15, title: "VITAMina M ", locutor: "Jose Landeros", img: "https://i.postimg.cc/13fJ6pC9/23.jpg", link: "go:VITAMINA" },
-                { dia: 6, start: 15, end: 16, title: "va de retro ", locutor: "Milton", img: "https://i.postimg.cc/tTt5yDTW/24.jpg", link: "go:MILTON" },
-                { dia: 6, start: 20, end: 22, title: "LA LUNA DE MORFEO", locutor: "Ade", img: "https://i.postimg.cc/rsNYnMxw/25.jpg", link: "go:ade" },
-
-                // -- DOMINGO (Día 0) -- (Corregido, Domingo es 0)
-                { dia: 0, start: 8, end: 9, title: "camino de redencion", locutor: "mocty", img: "https://i.postimg.cc/T1zNnVC8/26.jpg", link: "go:mocty" },
-
+                { dia: 1, start: 19, end: 20, title: "El JM de Ecatepec", locutor: "EL JM DE ECATAPEC", img: "https://i.postimg.cc/cCZbMVp7/6.jpg", link: "go:jm" }
+                // ... copia el resto de tu array de horario aquí ...
             ];
 
             const dayNames = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
-            // --- 1. SCRIPT DEL BANNER SLIDER DINÁMICO ---
-            function setupDynamicBannerSlider() {
+            function setupBanner() {
                 const ahora = new Date();
                 const todayIndex = ahora.getDay();
-                const currentHour = ahora.getHours();  
-
+                const currentHour = ahora.getHours();
                 const sliderTrack = document.querySelector('.banner-slider-track');
-                const dotsContainer = document.querySelector('.banner-dots');
-                
-                if (!sliderTrack || !dotsContainer) return;  
+                const shows = horario.filter(s => s.dia === todayIndex && s.end > currentHour);
 
-                sliderTrack.innerHTML = '';
-                dotsContainer.innerHTML = '';
-
-                const upcomingShows = horario
-                    .filter(show => show.dia === todayIndex && show.end > currentHour)
-                    .sort((a, b) => a.start - b.start);  
-                
-                const slideCount = upcomingShows.length;
-
-                if (slideCount === 0) {
-                    sliderTrack.innerHTML = `
-                        <div class="banner-slide" style="width: 100%; justify-content: center; align-items: center; background-image: url('https://i.postimg.cc/76ztb7P2/Copia-de-Miniatura-de-Youtube-podcast-finanzas-profesional-negro-verde-(Video-para-dispositivos-movi.jpg');">
-                            <div class="banner-gradient-overlay"></div>
-                            <div class="banner-content-overlay" style="text-align: center;">
-                                <h2>No hay más programas por hoy</h2>
-                                <p>Te Invitamos a Nuestros Podcast y retransmisiones.</p>
+                if(shows.length === 0) {
+                    sliderTrack.innerHTML = `<div class="banner-slide" style="background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('https://i.postimg.cc/76ztb7P2/default.jpg')"><div><h2>¡Bienvenidos!</h2><p>Sigue nuestra programación habitual.</p></div></div>`;
+                } else {
+                    shows.forEach(show => {
+                        sliderTrack.innerHTML += `
+                        <div class="banner-slide" style="background-image:linear-gradient(to top, rgba(0,0,0,0.9), transparent), url('${show.img}')">
+                            <div class="banner-content-overlay">
+                                <h2>${show.title}</h2>
+                                <p>Con ${show.locutor} - ${show.start}:00 HRS</p>
+                                <a href="${show.link}" class="banner-slide-button">Ver Detalles</a>
                             </div>
                         </div>`;
-                    sliderTrack.style.width = '100%';
-                    return;  
-                }
-
-                sliderTrack.style.width = `${slideCount * 100}%`;
-
-                upcomingShows.forEach((show, index) => {
-                    const slide = document.createElement('div');
-                    slide.className = 'banner-slide';
-                    slide.style.width = `${100 / slideCount}%`;
-                    slide.style.backgroundImage = `url('${show.img}')`;
-
-                    let statusText = `Próximo: ${show.start}:00 HRS`;
-                    if (currentHour >= show.start && currentHour < show.end) {
-                        statusText = '¡AL AIRE AHORA!';
-                    }
-
-                    slide.innerHTML = `
-                        <div class="banner-gradient-overlay"></div>
-                        <div class="banner-content-overlay">
-                            <div>
-                                <h2>${show.title}</h2>
-                                <p>${show.locutor} - ${statusText}</p>
-                                <a href="${show.link}" class="banner-slide-button">Más información</a>
-                            </div>
-                        </div>
-                        `;
-                    sliderTrack.appendChild(slide);
-
-                    const dot = document.createElement('span');
-                    dot.className = 'banner-dot';
-                    dot.setAttribute('data-slide', index);
-                    if (index === 0) {
-                        dot.classList.add('active');
-                    }
-                    dotsContainer.appendChild(dot);
-                });
-
-                const dots = document.querySelectorAll('.banner-dot');
-                let currentIndex = 0;
-                let autoSlideInterval;
-
-                function goToSlide(index) {
-                    sliderTrack.style.transform = `translateX(-${index * (100 / slideCount)}%)`;
-                    dots.forEach(dot => dot.classList.remove('active'));
-                    const activeDot = dotsContainer.querySelector(`.banner-dot[data-slide="${index}"]`);
-                    if (activeDot) {
-                        activeDot.classList.add('active');
-                    }
-                    currentIndex = index;
-                }
-
-                function nextSlide() {
-                    const nextIndex = (currentIndex + 1) % slideCount;
-                    goToSlide(nextIndex);
-                }
-
-                function resetInterval() {
-                    clearInterval(autoSlideInterval);
-                    autoSlideInterval = setInterval(nextSlide, 5000);  
-                }
-
-                dots.forEach(dot => {
-                    dot.addEventListener('click', () => {
-                        const slideIndex = parseInt(dot.getAttribute('data-slide'));
-                        goToSlide(slideIndex);
-                        resetInterval();  
                     });
-                });
-
-                autoSlideInterval = setInterval(nextSlide, 5000);
-                goToSlide(0);
-            }
-
-
-            // --- 2. SCRIPT DE PROGRAMACIÓN DIARIA (La sección de abajo) ---
-            function updateDailySchedule() {
-                const ahora = new Date();
-                const todayIndex = ahora.getDay();
-                const currentHour = ahora.getHours();  
-                const todayName = dayNames[todayIndex];
-
-                const titleElement = document.getElementById('daily-schedule-title');
-                if (titleElement) {
-                    titleElement.innerHTML = `Programación: ${todayName} <i class="fa-solid fa-calendar-day"></i>`;
                 }
-
-                const todayShows = horario.filter(show => show.dia === todayIndex).sort((a, b) => a.start - b.start);
-                const container = document.getElementById('recomendacion-container');
-                if (!container) return;
-                
-                container.innerHTML = '';  
-
-                if (todayShows.length === 0) {
-                    container.innerHTML = '<p style="padding-left: 15px; color: #94a3b8;">No hay programas agendados para hoy.</p>';
-                    return;
-                }
-
-                todayShows.forEach(show => {
-                    let statusClass = 'next';
-                    let statusText = `Próximo: ${show.start}:00 hrs`;
-                    if (currentHour >= show.start && currentHour < show.end) {
-                        statusClass = 'aire';
-                        statusText = '¡AL AIRE AHORA!';
-                    } else if (currentHour >= show.end) {
-                        statusClass = 'finalizado';
-                        statusText = 'Finalizado';
-                    }
-                    const cardHTML = `
-                        <div class="schedule-card">
-                            <div class="schedule-card-status ${statusClass}">${statusText}</div>
-                            <a href="${show.link}">
-                                <img src="${show.img}" alt="${show.title}">
-                                <div class="schedule-card-content">
-                                    <h4 class="schedule-card-title">${show.title}</h4>
-                                    <p class="schedule-card-desc">Con ${show.locutor} (${show.start}:00 - ${show.end}:00)</p>
-                                </div>
-                            </a>
-                        </div>
-                        `;
-                    container.innerHTML += cardHTML;
-                });
             }
 
-            // --- 3. SCRIPT PARA HEADER STICKY Y FADE DE SLIDER ---
-            
-            const stickyHeader = document.getElementById('sticky-header');
-            const mainBanner = document.getElementById('main-banner');
-            const bannerTrack = mainBanner.querySelector('.banner-slider-track');
-            const bannerDots = mainBanner.querySelector('.banner-dots');
-            
-            if (stickyHeader && mainBanner && bannerTrack && bannerDots) {
-                const bannerHeight = mainBanner.offsetHeight;
-                
-                window.addEventListener('scroll', function() {
-                    let scrollTop = window.scrollY || document.documentElement.scrollTop;
+            // Scroll Header
+            window.addEventListener('scroll', () => {
+                const header = document.getElementById('sticky-header');
+                if (window.scrollY > 300) header.classList.add('header-visible');
+                else header.classList.remove('header-visible');
+            });
 
-                    // --- Lógica 1: Mostrar Header Sticky ---
-                    // Muestra el header 70px antes de que el banner desaparezca
-                    if (scrollTop > bannerHeight - 70) {  
-                        stickyHeader.classList.add('header-visible');
-                    } else {
-                        stickyHeader.classList.remove('header-visible');
-                    }
-
-                    // --- Lógica 2: Degradado/Fade del Slider ---
-                    // El fade ocurre en la primera mitad del banner
-                    let fadePercent = scrollTop / (bannerHeight / 1.5); 
-                    if (fadePercent > 1) fadePercent = 1;
-                    
-                    let newOpacity = 1 - fadePercent;
-                    
-                    bannerTrack.style.opacity = newOpacity;
-                    bannerDots.style.opacity = newOpacity;
-
-                }, { passive: true }); 
-            }
-            
-            
-            // --- 4. EJECUTAR FUNCIONES Y MOSTRAR PÁGINA ---
-            setupDynamicBannerSlider();  
-            updateDailySchedule();  
-            document.body.style.visibility = 'visible'; // Muestra la página
-
+            setupBanner();
+            document.body.style.visibility = 'visible';
         });
     </script>
 </body>
